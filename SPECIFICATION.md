@@ -853,47 +853,20 @@ When some parameters are missing in a template call, that parameter would be ini
 The Sightly templating language encourages separation of concerns by not allowing business logic to mix with markup. However, business logic can be implemented through the Use-API.
 
 ### 3.1. Java Use-API
-The Use-API Interface can be implemented by Use objects meant to be used with `data-sly-use`, if these objects would need access to the bindings accessible in the script's context:
+The Java Use-API can be used for loading business logic objects to be used in Sightly scripts through `data-sly-use`. A Java Use-API object can be a simple POJO, instantiated by a particular implementation through the POJO's default constructor.
+
+The Use-API POJOs can also expose a public method, called `init`, with the following signature:
 
 ```java
-/*******************************************************************************
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
-
-import javax.script.Bindings;
-
-/**
- * The {@code Use} interface defines the Java API to support {@code data-sly-use} block statements.
- **/
-public interface Use {
-
     /**
      * Initialises the Use bean.
      *
      * @param bindings All bindings available to the Sightly scripts.
      **/ 
-    public void init(Bindings bindings);
+    public void init(javax.script.Bindings bindings);
+``` 
 
-}
-```
-
-Alternatively, POJOs can also be used as Use objects.
+The `bindings` map can contain objects that provide context to the currently executed Sightly script that the Use-API object can use for its processing.
 
 ### 3.2. JavaScript Use-API
 Use objects can also be defined with JavaScript, using the following conventions:
