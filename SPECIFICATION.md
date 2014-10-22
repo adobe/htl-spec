@@ -1,4 +1,4 @@
-Sightly Web Templating Language Specification
+Sightly HTML Templating Language Specification
 ====
 
 **Version:** 1.0  
