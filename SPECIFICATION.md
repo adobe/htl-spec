@@ -2,7 +2,7 @@ Sightly Web Templating Language Specification
 ====
 
 **Version:** 1.0  
-**Authors:** Senol Tas, Honwai Wong, Gabriel Walt, Marius Dănilă, Radu Cotescu  
+**Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
 **Status:** Final release  
 **Release:** 6 October 2014
