@@ -43,6 +43,7 @@ Sightly HTML Templating Language Specification
       1. [Template](#2291-template)
       2. [Call](#2292-call)
       3. [Examples](#2293-examples)
+    10. [Unwrap](#2210-unwrap)
 3. [Use-API](#3-use-api)
   1. [Java Use-API](#31-java-use-api)
   2. [JavaScript Use-API](#32-javascript-use-api)
