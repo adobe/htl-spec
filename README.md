@@ -6,4 +6,4 @@ This is the [Sightly Specification](https://github.com/Adobe-Marketing-Cloud/sig
 
 A Java-based reference implementation is in the process of being [donated to the Apache Sling project](https://issues.apache.org/jira/browse/SLING-3959).
 
-And the [Technology Compatibility Kit](https://github.com/Adobe-Marketing-Cloud/sightly-tck) can be run on implementations to check their compliance with the specification.
+The [Technology Compatibility Kit](https://github.com/Adobe-Marketing-Cloud/sightly-tck) can be run on implementations to check their compliance with the specification.
