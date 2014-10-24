@@ -14,6 +14,8 @@ Sightly HTML Templating Language Specification
     2. [Expressions](#112-expressions)
     3. [Context-Sensitive](#113-context-sensitive)
     4. [Operators](#114-operators)
+      1. [Logical Operators](#1141-logical-operators)
+      2. [Comparison Operators](#1142-comparison-operators)
     5. [Casting](#115-casting)
       1. [Boolean](#1151-boolean)
       2. [String](#1152-string)
@@ -209,6 +211,7 @@ For style and script contexts, it is mandatory to set a context. If the context 
 ```
 
 #### 1.1.4. Operators
+##### 1.1.4.1. Logical Operators
 Only the following logical operators are currently supported, all other operations have to be prepared through the Use-API:
 
 ```html
@@ -216,7 +219,7 @@ ${varOne && !(varTwo || varThree)} <!--/* 1. Grouping parenthesis */-->
 ${!myVar}                          <!--/* 2. Logical NOT */-->
 ${varOne && varTwo}                <!--/* 3. Logical AND */-->
 ${varOne || varTwo}                <!--/* 4. Logical OR */-->
-${varChoice ? varOne : varTwo}     <!--/* 5. Conditional (note that the ? and : separators must be surrounded by a space) */-->
+${varChoice ? varOne : varTwo}     <!--/* 5. Conditional (ternary) (note that the ? and : separators must be surrounded by a space) */-->
 ```
 
 The numbers written in the comments above correspond to the precedence of the operators.
@@ -229,6 +232,24 @@ The logical `&&` and `||` operators work like the [JavaScript `||` and `&&` oper
     resource.name is shown.
 */-->
 ${properties.pageTitle || properties.jcr:title || resource.name}
+```
+
+##### 1.1.4.1. Comparison Operators
+Sightly also provides a set of strict comparison operators which can be used for comparing values of operands of the same type; no type conversion will be applied to any of the operands. The equality operators (`==`, `!=`) work similarly to the [JavaScript `===`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) and the [JavaScript `!==`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) identity operators.
+
+```html
+${nullValueOne == nullValueTwo}        <!-- null comparison -->
+${nullValueOne != nullValueTwo}        <!-- null comparison -->
+${stringValueOne == stringValueTwo}    <!-- string comparison -->
+${stringValueOne != stringValueTwo}    <!-- string comparison -->
+${numberValueOne < numberValueTwo}     <!-- number comparison -->
+${numberValueOne <= numberValueTwo}    <!-- number comparison -->
+${numberValueOne == numberValueTwo}    <!-- number comparison -->
+${numberValueOne >= numberValueTwo}    <!-- number comparison -->
+${numberValueOne > numberValueTwo}     <!-- number comparison -->
+${numberValueOne != numberValueTwo}    <!-- number comparison -->
+${booleanValueOne == booleanValueTwo}  <!-- boolean comparison -->
+${booleanValueOne != booleanValueTwo}  <!-- boolean comparison -->
 ```
 
 #### 1.1.5. Casting
