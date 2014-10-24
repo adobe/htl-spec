@@ -28,6 +28,7 @@ Sightly HTML Templating Language Specification
     2. [Format](#122-format)
     3. [i18n](#123-i18n)
     4. [Array Join](#124-array-join)
+  3. [Reserved Options](#13-reserved-options)
 2. [Block Statements](#2-block-statements)
   1. [Syntax](#21-syntax)
     1. [Identifiers](#211-identifiers)
@@ -410,6 +411,20 @@ ${['one', 'two'] @ join='; '} <!--/* outputs: one; two */-->
 <!--/* This can for e.g. be useful for setting class-names */-->
 <span class="${myListOfClassNames @ join=' '}"></span>
 ```
+
+### 1.3. Reserved Options
+All the expression options defined in the [1.2. Available Expression Options](#12-available-expression-options) section are reserved options. A reserved option is an option identifier name that cannot be used as an expression option.
+
+The complete list of such options is the following:
+
+1. `context` - used to override the default XSS context applied to an expression;
+2. `format` - used to format strings using a pattern;
+3. `i18n` - used for applying i18n translations;
+4. `locale` - used to apply a specific language for the i18n translation; this option can be used in expressions with a user-provided meaning if the `i18n` expression option is missing;
+5. `hint` - used to provide a translation hint for translators; this option can be used in expressions with a user-provided meaning if the `i18n` expression option is missing;
+6. `join` - used to generate a string from array or list elements.
+
+Therefore reserved options cannot be used as parameters sent to Use objects through the [Use](#221-use) block element or as parameters for the [Template & Call](#229-template--call) block elements.
 
 ## 2. Block Statements
 
