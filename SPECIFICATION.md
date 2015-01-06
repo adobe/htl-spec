@@ -348,11 +348,13 @@ It is also possible to override the automatic display context handling with the 
 
 ```scala
 ${properties.jcr:title @ context='html'}          <!--/* Use this in case you want to output HTML - Removes markup that may contain XSS risks */-->
+${properties.jcr:title @ context='xml'}           <!--/* Use this in case you want to output XML - Removes markup that may contain XSS risks */-->
 ${properties.jcr:title @ context='text'}          <!--/* Use this for simple HTML content - Encodes all HTML */-->
 ${properties.jcr:title @ context='elementName'}   <!--/* Allows only element names that are white-listed, outputs 'div' otherwise */-->
 ${properties.jcr:title @ context='attributeName'} <!--/* Outputs nothing if the value doesn't correspond to the HTML attribute name syntax - doesn't allow 'style' and 'on*' attributes */-->
 ${properties.jcr:title @ context='attribute'}     <!--/* Applies HTML attribute escaping */-->
 ${properties.jcr:title @ context='uri'}           <!--/* Outputs nothing if the value contains XSS risks */-->
+${properties.jcr:title @ context='json'}          <!--/* Outputs JSON data. Removes XSS risks by encoding HTML entities */-->
 ${properties.jcr:title @ context='scriptToken'}   <!--/* Outputs nothing if the value doesn't correspond to the JavaScript token syntax */-->
 ${properties.jcr:title @ context='scriptString'}  <!--/* Applies JavaScript string escaping */-->
 ${properties.jcr:title @ context='scriptComment'} <!--/* Applies JavaScript comment escaping */-->
@@ -410,6 +412,11 @@ ${['one', 'two'] @ join='; '} <!--/* outputs: one; two */-->
  
 <!--/* This can for e.g. be useful for setting class-names */-->
 <span class="${myListOfClassNames @ join=' '}"></span>
+```
+
+The join option is forgiving and can be used with a simple string, in which case it will just output the string:
+```html
+${'test' @ join=', '} <!--/* outputs: test */-->
 ```
 
 ### 1.3. Reserved Options
