@@ -348,6 +348,7 @@ It is also possible to override the automatic display context handling with the 
 
 ```scala
 ${properties.jcr:title @ context='html'}          <!--/* Use this in case you want to output HTML - Removes markup that may contain XSS risks */-->
+${properties.jcr:title @ context='xml'}           <!--/* Use this in case you want to output XML - Removes markup that may contain XSS risks */-->
 ${properties.jcr:title @ context='text'}          <!--/* Use this for simple HTML content - Encodes all HTML */-->
 ${properties.jcr:title @ context='elementName'}   <!--/* Allows only element names that are white-listed, outputs 'div' otherwise */-->
 ${properties.jcr:title @ context='attributeName'} <!--/* Outputs nothing if the value doesn't correspond to the HTML attribute name syntax - doesn't allow 'style' and 'on*' attributes */-->
