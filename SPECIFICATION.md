@@ -414,6 +414,11 @@ ${['one', 'two'] @ join='; '} <!--/* outputs: one; two */-->
 <span class="${myListOfClassNames @ join=' '}"></span>
 ```
 
+The join option is forgiving and can be used with a simple string, in which case it will just output the string:
+```html
+${'test' @ join=', '} <!--/* outputs: test */-->
+```
+
 ### 1.3. Reserved Options
 All the expression options defined in the [1.2. Available Expression Options](#12-available-expression-options) section are reserved options. A reserved option is an option identifier name that cannot be used as an expression option.
 
