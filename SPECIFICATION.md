@@ -1,11 +1,11 @@
 Sightly HTML Templating Language Specification
 ====
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
 **Status:** Final release  
-**Release:** 6 October 2014
+**Release:** 27 January 2015
 
 #### Contents
 1. [Expression language, syntax and semantics](#1-expression-language-syntax-and-semantics)  
@@ -40,16 +40,19 @@ Sightly HTML Templating Language Specification
     4. [Element](#224-element)
     5. [Test](#225-test)
     6. [List](#226-list)
-    7. [Include](#227-include)
-    8. [Resource](#228-resource)
-    9. [Template & Call](#229-template--call)
-      1. [Template](#2291-template)
-      2. [Call](#2292-call)
-      3. [Examples](#2293-examples)
-    10. [Unwrap](#2210-unwrap)
-3. [Use-API](#3-use-api)
-  1. [Java Use-API](#31-java-use-api)
-  2. [JavaScript Use-API](#32-javascript-use-api)
+    7. [Repeat](#227-repeat)
+    8. [Include](#228-include)
+    9. [Resource](#229-resource)
+    10. [Template & Call](#2210-template--call)
+      1. [Template](#22101-template)
+      2. [Call](#22102-call)
+      3. [Examples](#22103-examples)
+    11. [Unwrap](#2211-unwrap)
+3. [Special HTML tags](#3-special-html-tags)
+  1. [&lt;sly&gt;](#31-sly)
+4. [Use-API](#4-use-api)
+  1. [Java Use-API](#41-java-use-api)
+  2. [JavaScript Use-API](#42-javascript-use-api)
 
 ## 1. Expression language, syntax and semantics
 
@@ -413,6 +416,11 @@ ${['one', 'two'] @ join='; '} <!--/* outputs: one; two */-->
 <span class="${myListOfClassNames @ join=' '}"></span>
 ```
 
+Applying the `join` option to simple strings should just output the string:
+```html
+${'test' @ join=', '} <!--/*  outputs: test */-->
+```
+
 ### 1.3. Reserved Options
 All the expression options defined in the [1.2. Available Expression Options](#12-available-expression-options) section are reserved options. A reserved option is an option identifier name that cannot be used as an expression option.
 
@@ -502,7 +510,7 @@ Parameters can be passed to the Use-API by using expression options:
 <div data-sly-use.nav="${'Navigation' @ depth=1, showVisible=!wcmmode.edit}">${nav.foo}</div>
 ```
 
-More informations about how the Use-API is working can be found in the [Use-API section](#3-use-api).
+More informations about how the Use-API is working can be found in the [Use-API section](#4-use-api).
 
 The use statement can also be used to load external templates. See the [Template & Call section](#229-template--call) for this usage.
 
@@ -708,7 +716,7 @@ Note that the identifier contains the value of the condition as it was (not cast
 #### 2.2.6. List
 **`data-sly-list`:**
 * Iterates over the content of each item in the attribute value.
-* **Element:** always shown.
+* **Element:** shown only if the number of items from the attribute value is greater than 0.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the content will not be shown.
 * **Attribute identifier:** optional; customised identifier name to access the item within the list element.
@@ -727,7 +735,7 @@ Repeats the content of the element for each item of the provided object (which c
 </ul>
 ```
 
-An additional `itemList` (respectively `<variable>List` in case a custom identifier/variable was defined using `data-sly-list.<variable>`) identifier is also available within the list, with following members:
+An additional `itemList` (respectively `<variable>List` in case a custom identifier/variable was defined using `data-sly-list.<variable>`) identifier is also available within the scope, with the following members:
 
 * `index`: zero-based counter (`0..length-1`);
 * `count`: one-based counter (`1..length`);
@@ -746,7 +754,44 @@ When iterating over `Map` objects, the item variable contains the key of each ma
 </dl>
 ```
 
-#### 2.2.7. Include
+#### 2.2.7. Repeat
+**`data-sly-repeat`:**
+* Iterates over the content of each item in the attribute value and displays the containing element as many times as items in the attribute value.
+* **Element:** shown only if the number of items from the attribute value is greater than 0.
+* **Content of element:** repeated as many times as there are items in the attribute value.
+* **Attribute value:** optional; the item to iterate over; if omitted the containing element and its content will not be shown.
+* **Attribute identifier:** optional; customised identifier name to access the item within the repeat element.
+
+Repeats the content of the element for each item of the provided object (which can be an array, or any iterable object).
+
+```html
+<!--/* By default the 'item' identifier is defined within the loop. */-->
+<p data-sly-repeat="${resource.listChildren}">${item.text}</p>
+
+<!--/* This is how the name of the 'item' identifier can be customised. */-->
+<p data-sly-list.childResource="${resource.listChildren}">${childResource.text}</p>
+```
+
+An additional `itemList` (respectively `<variable>List` in case a custom identifier/variable was defined using `data-sly-repeat.<variable>`) identifier is also available within the scope, with the following members:
+
+* `index`: zero-based counter (`0..length-1`);
+* `count`: one-based counter (`1..length`);
+* `first`: `true` for the first element being iterated;
+* `middle`: `true` if element being iterated is neither the first nor the last;
+* `last`: `true` for the last element being iterated;
+* `odd`: `true` if index is odd;
+* `even`: `true` if index is even;
+
+When iterating over `Map` objects, the item variable contains the key of each map item:
+
+```html
+<p data-sly-repeat="${myMap}">
+    <span>key: ${item}</span>
+    <span>value: ${myMap[item]}</span>
+</p>
+```
+
+#### 2.2.8. Include
 **`data-sly-include`:**
 * Includes the output of a rendering script run with the current context.
 * **Element:** always shown.
@@ -783,7 +828,7 @@ The element on which a data-sly-include has been set is ignored and not displaye
 
 The scope of the `data-sly-include` statement isn't passed to the template of the included resource.
 
-#### 2.2.8. Resource
+#### 2.2.9. Resource
 **`data-sly-resource`:**
 * Includes a rendered resource.
 * **Element:** always shown.
@@ -823,10 +868,10 @@ With an expression more options can be specified:
 
 The scope of the `data-sly-resource` statement isn't passed to the template of the included resource.
 
-#### 2.2.9 Template & Call
+#### 2.2.10 Template & Call
 Template blocks can be used like function calls: in their declaration they can get parameters, which can then be passed when calling them. They also allow recursion.
 
-##### 2.2.9.1 Template
+##### 2.2.10.1 Template
 **`data-sly-template`:**
 * Declares an HTML block, naming it with an identifier and defining the parameters it can get.
 * **Element:** never shown.
@@ -834,7 +879,7 @@ Template blocks can be used like function calls: in their declaration they can g
 * **Attribute value:** optional; an expression with only options, defining the parameters it can get.
 * **Attribute identifier:** required; the template identifier to declare.
 
-##### 2.2.9.2. Call
+##### 2.2.10.2. Call
 **`data-sly-call`:**
 * Calls a declared HTML block, passing parameters to it.
 * **Element:** always shown.
@@ -842,7 +887,7 @@ Template blocks can be used like function calls: in their declaration they can g
 * **Attribute value:** optional; an expression defining the template identifier and the parameters to pass.
 * **Attribute identifier:** none.
 
-##### 2.2.9.3. Examples
+##### 2.2.10.3. Examples
 Static template that has no parameters:
 
 ```html
@@ -869,7 +914,7 @@ When templates are located in a separate file, they can be loaded with `data-sly
 
 When some parameters are missing in a template call, that parameter would be initialised to an empty string within the template.
 
-#### 2.2.10. Unwrap
+#### 2.2.11. Unwrap
 **`data-sly-unwrap`:**
 * Unwraps the element.
 * **Element:** never shown.
@@ -887,10 +932,26 @@ When some parameters are missing in a template call, that parameter would be ini
 <div data-sly-unwrap="${myTest}">Foo</div>
 ```
 
-## 3. Use-API
+## 3. Special HTML tags
+
+### 3.1. `<sly>`
+The `<sly>` HTML tag can be used to remove the current element, allowing only its children to be displayed. Its functionality is similar to the `data-sly-unwrap` block element:
+
+```html
+<!--/* This will display only the output of the 'header' resource, without the wrapping <sly> tag */-->
+<sly data-sly-resource="./header"></sly>
+```
+
+Although not a valid HTML 5 tag, the `<sly>` tag can be displayed in the final output using `data-sly-unwrap`:
+
+```html
+<sly data-sly-unwrap="${false}"></sly> <!--/* outputs: <sly></sly> */-->
+```
+
+## 4. Use-API
 The Sightly templating language encourages separation of concerns by not allowing business logic to mix with markup. However, business logic can be implemented through the Use-API.
 
-### 3.1. Java Use-API
+### 4.1. Java Use-API
 The Java Use-API can be used for loading business logic objects to be used in Sightly scripts through `data-sly-use`. A Java Use-API object can be a simple POJO, instantiated by a particular implementation through the POJO's default constructor.
 
 The Use-API POJOs can also expose a public method, called `init`, with the following signature:
@@ -906,7 +967,7 @@ The Use-API POJOs can also expose a public method, called `init`, with the follo
 
 The `bindings` map can contain objects that provide context to the currently executed Sightly script that the Use-API object can use for its processing.
 
-### 3.2. JavaScript Use-API
+### 4.2. JavaScript Use-API
 Use objects can also be defined with JavaScript, using the following conventions:
 
 ```javascript
@@ -928,11 +989,3 @@ use(['dep1.js', 'dep2.js'], function (Dep1, Dep2) {
     }
 });
 ```
-
-
-
-
-
-
-
-
