@@ -224,6 +224,7 @@ ${varChoice ? varOne : varTwo}     <!--/* 5. Conditional (ternary) (note that th
 ```
 
 The numbers written in the comments above correspond to the precedence of the operators.
+
 The logical `&&` and `||` operators work like the [JavaScript `||` and `&&` operators](http://www.ecma-international.org/ecma-262/5.1/#sec-11.11): they return the value of one of the specified operands, so if these operators are used with non-Boolean values, they may return a non-Boolean value. This offers a handy way to use the `||` operator to specify default string values:
 
 ```html
@@ -271,7 +272,7 @@ These evaluate to true:
 ##### 1.1.5.2. String
 This is how non-string types are converted when being output:
 
-```scala
+```html
 ${0}              <!--/* outputs: 0 */-->
 ${true}           <!--/* outputs: true */-->
 ${false}          <!--/* outputs: false */-->
@@ -284,7 +285,7 @@ ${['foo', '']}    <!--/* outputs: foo, */-->
 #### 1.1.6. Options
 Expression options can act on the expression and modify it.
 
-```scala
+```html
 <!--/* An option without a value: */-->
 ${myVar @ optName}
  
@@ -313,7 +314,7 @@ Expressions with only options can be used for passing parameters to block elemen
 #### 1.1.8. Whitespace
 Whitespace characters (spaces and tabs) are allowed between any part of an expression:
 
-```scala
+```html
 <!--/* No spaces: */-->
 ${myVar@argOne,argTwo=myVar,argThree='string',argFour=[myVar,'string']}
  
@@ -346,7 +347,7 @@ To protect against cross-site scripting (XSS) vulnerabilities, Sightly automatic
 
 It is also possible to override the automatic display context handling with the `context` option.
 
-```scala
+```html
 ${properties.jcr:title @ context='html'}          <!--/* Use this in case you want to output HTML - Removes markup that may contain XSS risks */-->
 ${properties.jcr:title @ context='text'}          <!--/* Use this for simple HTML content - Encodes all HTML */-->
 ${properties.jcr:title @ context='elementName'}   <!--/* Allows only element names that are white-listed, outputs 'div' otherwise */-->
@@ -372,7 +373,7 @@ section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address, m
 
 #### 1.2.2. Format
 This option can be used to format strings.
-```scala
+```html
 <!--/* Numbered parameters for injecting variables: */-->
 ${'Assets {0}' @ format=properties.assetName}   <!--/* Basically a shortcut of the array notation, useful when it has only one element */-->
 ${'Assets {0}' @ format=[properties.assetName]}
@@ -382,7 +383,7 @@ ${'Assets {0} - {1} of {2}' @ format=[properties.first, properties.last, propert
 #### 1.2.3. i18n
 This option internationalises strings.
 
-```scala
+```html
 ${'Assets' @ i18n} <!--/* Translates the string to the resource language */-->
 ```
 
@@ -391,7 +392,7 @@ When this option is used, two more options take a special meaning:
 * `locale`: When set, it overrides the language from the source. For e.g.: `en-US` or `fr-CH`
 * `hint`: Allows to provide some information about the context for the translators.
 
-```scala
+```html
 ${'Assets' @ i18n, locale='en-US', hint='Translation Hint'}
 ```
 
