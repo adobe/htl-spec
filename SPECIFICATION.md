@@ -769,7 +769,10 @@ Repeats the content of the element for each item of the provided object (which c
 <p data-sly-repeat="${resource.listChildren}">${item.text}</p>
 
 <!--/* This is how the name of the 'item' identifier can be customised. */-->
-<p data-sly-list.childResource="${resource.listChildren}">${childResource.text}</p>
+<p data-sly-repeat.childResource="${resource.listChildren}">${childResource.text}</p>
+
+<!--/* The 'item' identifier can be used on the defining element. */-->
+<div data-sly-repeat.article="${articlesCollection}" id="${article.id}">${article.excerpt}</div>
 ```
 
 An additional `itemList` (respectively `<variable>List` in case a custom identifier/variable was defined using `data-sly-repeat.<variable>`) identifier is also available within the scope, with the following members:
