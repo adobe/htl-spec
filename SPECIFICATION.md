@@ -239,7 +239,7 @@ The logical `&&` and `||` operators work like the [JavaScript `||` and `&&` oper
 ${properties.pageTitle || properties.jcr:title || resource.name}
 ```
 
-##### 1.1.4.1. Comparison Operators
+##### 1.1.4.2. Comparison Operators
 Sightly also provides a set of strict comparison operators which can be used for comparing values of operands of the same type; no type conversion will be applied to any of the operands. The equality operators (`==`, `!=`) work similarly to the [JavaScript `===`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) and the [JavaScript `!==`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) identity operators.
 
 ```html
