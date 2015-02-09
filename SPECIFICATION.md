@@ -5,7 +5,7 @@ Sightly HTML Templating Language Specification
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
 **Status:** Final release  
-**Release:** 27 January 2015
+**Release:** 16 February 2015
 
 #### Contents
 1. [Expression language, syntax and semantics](#1-expression-language-syntax-and-semantics)  
@@ -28,7 +28,7 @@ Sightly HTML Templating Language Specification
     2. [Format](#122-format)
     3. [i18n](#123-i18n)
     4. [Array Join](#124-array-join)
-  3. [Reserved Options](#13-reserved-options)
+    5. [URI Manipulation](#125-uri-manipulation)
 2. [Block Statements](#2-block-statements)
   1. [Syntax](#21-syntax)
     1. [Identifiers](#211-identifiers)
@@ -408,7 +408,8 @@ ${'<span class="count">{0}</span> Assets' @ i18n, format=properties.total, hint=
 ```
 
 #### 1.2.4. Array Join
-The join option allows to control the output of an array object by specifying the separator string.
+The `join` option allows to control the output of an array object by specifying the separator string.
+
 ```html
 ${['one', 'two'] @ join='; '} <!--/* outputs: one; two */-->
  
@@ -417,23 +418,206 @@ ${['one', 'two'] @ join='; '} <!--/* outputs: one; two */-->
 ```
 
 Applying the `join` option to simple strings should just output the string:
+
 ```html
 ${'test' @ join=', '} <!--/*  outputs: test */-->
 ```
 
-### 1.3. Reserved Options
-All the expression options defined in the [1.2. Available Expression Options](#12-available-expression-options) section are reserved options. A reserved option is an option identifier name that cannot be used as an expression option.
+#### 1.2.5. URI Manipulation
+URI manipulation can be performed by adding any of the following options to an expression:
 
-The complete list of such options is the following:
+* `scheme` - allows adding or removing the scheme part for a URI
+  
+  ```html
+  ${'example.com/path/page.html' @ scheme='http'}
+  <!-- outputs: http://example.com/path/page.html -->
+  
+  ${'//example.com/path/page.html' @ scheme='http'}
+  <!-- outputs: http://example.com/path/page.html -->
+  
+  ${'http://example.com/path/page.html' @ scheme='https'}
+  <!-- outputs: https://example.com/path/page.html -->
+  
+  ${'http://example.com/path/page.html' @ scheme=''}
+  <!-- outputs: http://example.com/path/page.html -->
+  
+  ${'http://example.com/path/page.html' @ scheme}
+  <!-- outputs: http://example.com/path/page.html -->
+  ```
+  
+* `domain` - allows adding or replacing the host and port (domain) part for a URI
+  
+  ```html
+  ${'///path/page.html' @ domain='example.org'}
+  <!-- outputs: //example.org/path/page.html -->
+  
+  ${'http:///path/page.html' @ domain='example.org'}
+  <!-- outputs: http://example.org/path/page.html -->
+  
+  ${'http://www.example.com/path/page.html' @ domain='www.example.org'}
+  <!-- outputs: http://www.example.org/path/page.html -->
+  ```
+  
+* `path` - modifies the path that identifies a resource
+* `prependPath` - prepends its content to the path that identifies a resource
+* `appendPath` - appends its content to the path that identifies a resource
 
-1. `context` - used to override the default XSS context applied to an expression;
-2. `format` - used to format strings using a pattern;
-3. `i18n` - used for applying i18n translations;
-4. `locale` - used to apply a specific language for the i18n translation; this option can be used in expressions with a user-provided meaning if the `i18n` expression option is missing;
-5. `hint` - used to provide a translation hint for translators; this option can be used in expressions with a user-provided meaning if the `i18n` expression option is missing;
-6. `join` - used to generate a string from array or list elements.
+  
+  ```html
+  ${'one' @ appendPath='two'}
+  <!-- outputs: one/two -->
+  
+  ${'/one/' @ appendPath='/two/'}
+  <!-- outputs: /one/two/ -->
+  
+  ${'path' @ prependPath='..'}
+  <!-- outputs: ../path -->
+  
+  ${'path' @ prependPath='/', appendPath='/'}
+  <!-- outputs: /path/ -->
+  
+  ${'http://example.com/path/page.html' @ prependPath='foo'}
+  <!-- outputs: http://example.com/foo/path/page.html -->
+  
+  ${'path/page.selector.html/suffix?key=value#fragment' @ appendPath='appended'}
+  <!-- outputs: path/page/appended.selector.html/suffix?key=value#fragment -->
+  
+  ${'http://example.com/this/one.selector.html/suffix?key=value#fragment' @ path='that/two'}
+  <!-- outputs: http://example.com/that/two.selector.html/suffix?key=value#fragment -->
+  
+  ${'http://example.com/this/one.selector.html/suffix?key=value#fragment' @ path=''}
+  <!-- outputs: http://example.com/this/one.selector.html/suffix?key=value#fragment -->
+  
+  ${'http://example.com/this/one.selector.html/suffix?key=value#fragment' @ path}
+  <!-- outputs: http://example.com/this/one.selector.html/suffix?key=value#fragment -->
+  ```
+  
+* `selectors` - modifies or removes the selectors from a URI; the selectors are the URI segments between the part that identifies a resource (the resource's path) and the extension used for representing the resource
+* `addSelectors` - adds the provided selectors (selectors string or selectors array) to the URI
+* `removeSelectors` - removes the provided selectors (selectors string or selectors array) from the URI
 
-Therefore reserved options cannot be used as parameters sent to Use objects through the [Use](#221-use) block element or as parameters for the [Template & Call](#229-template--call) block elements.
+  ```html
+  ${'path/page.woo.foo.html' @ selectors='foo.bar'}
+  <!-- outputs: path/page.foo.bar.html -->
+  
+  ${'path/page.woo.foo.html' @ selectors=['foo', 'bar']}
+  <!-- outputs: path/page.foo.bar.html -->
+  
+  ${'path/page.woo.foo.html' @ addSelectors='foo.bar'}
+  <!-- outputs: path/page.woo.foo.bar.html -->
+  
+  ${'path/page.woo.foo.html' @ addSelectors=['foo', 'bar']}
+  <!-- outputs: path/page.woo.foo.bar.html -->
+  
+  ${'path/page.woo.foo.html' @ removeSelectors='foo.bar'}
+  <!-- outputs: path/page.woo.html -->
+  
+  ${'path/page.woo.foo.html' @ removeSelectors=['foo', 'bar']}
+  <!-- outputs: path/page.woo.html -->
+  
+  ${'path/page.woo.foo.html' @ selectors}
+  <!-- outputs: path/page.html -->
+  
+  ${'path/page.woo.foo.html' @ selectors=''}
+  <!-- outputs: path/page.html -->
+  ```
+
+* `extension` - adds, modifies or removes the extension from a URI
+
+  ```html
+  ${'path/page' @ extension='html'}
+  <!-- outputs: path/page.html -->
+  
+  ${'path/page.json' @ extension='html'}
+  <!-- outputs: path/page.html -->
+  
+  ${'path/page.selector.json' @ extension='html'}
+  <!-- outputs: path/page.selector.html -->
+  
+  ${'path/page.json/suffix' @ extension='html'}
+  <!-- outputs: path/page.html/suffix -->
+  
+  ${'path/page.json?key=value' @ extension='html'}
+  <!-- outputs: path/page.html?key=value -->
+  
+  ${'path/page.json#fragment' @ extension='html'}
+  <!-- outputs: path/page.html#fragment -->
+  
+  ${'path/page.json' @ extension}
+  <!-- outputs: path/page -->
+  ```
+  
+* `suffix` - adds, modifies or removes the suffix part from a URI; the suffix is the URI segment between the extension and the query segment
+* `prependSuffix` - prepends its content to the existing suffix
+* `appendSuffix` - appends its content to the existing suffix
+
+  ```html
+  ${'path/page.html' @ suffix='my/suffix'}
+  <!-- outputs: path/page.html/my/suffix -->
+  
+  ${'path/page.html/some/suffix' @ suffix='my/suffix'}
+  <!-- outputs: path/page.html/my/suffix -->
+  
+  ${'path/page.html?key=value' @ suffix='my/suffix'}
+  <!-- outputs: path/page.html/my/suffix?key=value -->
+  
+  ${'path/page.html#fragment' @ suffix='my/suffix'}
+  <!-- outputs: path/page.html/my/suffix#fragment -->
+  
+  ${'path/page.html/suffix' @ prependSuffix='prepended'}
+  <!-- outputs: path/page.html/prepended/suffix -->
+  
+  ${'path/page.html/suffix' @ appendSuffix='appended'}
+  <!-- outputs: path/page.html/suffix/appended -->
+  
+  ${'path/page.html/suffix' @ suffix}
+  <!-- outputs: path/page.html -->
+  ```
+  
+* `query` - adds, replaces or removes the query segment of a URI, depending on the contents of its map value
+* `addQuery` - adds or extends the query segment of a URI with the contents of its map value
+* `removeQuery` - removes the identified parameters from an existing query segment of a URI; its value can be a string or a string array
+  
+  ```html
+  <!--
+      assuming that jsuse.query evaluates to:
+      
+      {
+        "query": {
+          "q" : "sightly",
+          "array" : [1, 2, 3]
+        }
+      }
+  -->
+  
+  ${'http://www.example.org/search' @ query=jsuse.query}
+  <!-- outputs: http://www.example.org/search?q=sightly&amp;array=1&amp;array=2&amp;array=3 -->
+  
+  ${'http://www.example.org/search?s=1' @ addQuery=jsuse.query}
+  <!-- outputs: http://www.example.org/search?s=1&amp;q=sightly&amp;array=1&amp;array=2&amp;array=3 -->
+  
+  ${'http://www.example.org/search?s=1&q=sightly' @ removeQuery='q'}
+  <!-- outputs: http://www.example.org/search?s=1 -->
+  
+  ${'http://www.example.org/search?s=1&q=sightly' @ removeQuery=['s', 'q']}
+  <!-- outputs: http://www.example.org/search -->
+  
+  ${'http://www.example.org/search?s=1&q=sightly' @ query}
+  <!-- outputs: http://www.example.org/search -->
+  ```
+  
+* `fragment` - adds, modifies or replaces the fragment segment of a URI
+
+  ```html
+  ${'path/page' @ fragment='fragment'}
+  <!-- outputs: path/page#fragment -->
+  
+  ${'path/page#one' @ fragment='two'}
+  <!-- outputs: path/page#two -->
+  
+  ${'path/page#one' @ fragment}
+  <!-- outputs: path/page -->
+  ```
 
 ## 2. Block Statements
 
