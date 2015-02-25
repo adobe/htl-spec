@@ -901,7 +901,7 @@ Note that the identifier contains the value of the condition as it was (not cast
 #### 2.2.6. List
 **`data-sly-list`:**
 * Iterates over the content of each item in the attribute value.
-* **Element:** shown only if the number of items from the attribute value is greater than 0.
+* **Element:** shown only if the number of items from the attribute value is greater than 0, or if the attribute value is a string or number.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the content will not be shown.
 * **Attribute identifier:** optional; customised identifier name to access the item within the list element.
@@ -942,7 +942,7 @@ When iterating over `Map` objects, the item variable contains the key of each ma
 #### 2.2.7. Repeat
 **`data-sly-repeat`:**
 * Iterates over the content of each item in the attribute value and displays the containing element as many times as items in the attribute value.
-* **Element:** shown only if the number of items from the attribute value is greater than 0.
+* **Element:** shown only if the number of items from the attribute value is greater than 0, or if the attribute value is a string or number.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the containing element and its content will not be shown.
 * **Attribute identifier:** optional; customised identifier name to access the item within the repeat element.
