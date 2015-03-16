@@ -375,6 +375,12 @@ Note that `context='elementName'` allows only the following element names:
 section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address, main, p, pre, blockquote, ol, li, dl, dt, dd, figure, figcaption, div, a, em, strong, small, s, cite, q, dfn, abbr, data, time, code, var, samp, kbd, sub, sup, i, b, u, mark, ruby, rt, rp, bdi, bdo, span, br, wbr, ins, del, table, caption, colgroup, col, tbody, thead, tfoot, tr, td, th
 ```
 
+If you want to use Sightly expressions within HTML comments you might need to adjust the context depending on what you want to output, as the automatically implied context will be `comment`:
+
+```html
+<!--[if IE]><link rel="shortcut icon" href="${site.root @ context='uri'}/images/favicon/favicon.ico?v2"><![endif]-->
+```
+
 #### 1.2.2. Format
 This option can be used to format strings.
 ```html
