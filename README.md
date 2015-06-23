@@ -4,7 +4,7 @@
 
 This is the [Sightly Specification](https://github.com/Adobe-Marketing-Cloud/sightly-spec/blob/master/SPECIFICATION.md) that defines the syntax and the behavior of the language.
 
-A Java-based reference implementation was [donated to the Apache Sling project](https://issues.apache.org/jira/browse/SLING-3959) and can be checked out from https://github.com/apache/sling/tree/trunk/contrib/scripting/sightly.
+A Java-based reference implementation was [donated to the Apache Sling project](https://issues.apache.org/jira/browse/SLING-3959) and can be checked out from https://github.com/apache/sling/tree/trunk/bundles/scripting/sightly.
 
 The [Technology Compatibility Kit](https://github.com/Adobe-Marketing-Cloud/sightly-tck) can be run on implementations to check their compliance with the specification.
 
