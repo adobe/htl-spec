@@ -1010,6 +1010,7 @@ With an expression more options can be specified:
 <!--/* Manipulating the path: */-->
 <div data-sly-include="${'template.html' @ appendPath='appended/path'}"></div>
 <div data-sly-include="${'template.html' @ prependPath='prepended/path'}"></div>
+<div data-sly-include="${@ file='template.html', prependPath='prepended/path', appendPath='appended/path'}"></div>
 ```
 
 The element on which a data-sly-include has been set is ignored and not displayed:
