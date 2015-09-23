@@ -255,6 +255,7 @@ ${numberValueOne > numberValueTwo}     <!-- number comparison -->
 ${numberValueOne != numberValueTwo}    <!-- number comparison -->
 ${booleanValueOne == booleanValueTwo}  <!-- boolean comparison -->
 ${booleanValueOne != booleanValueTwo}  <!-- boolean comparison -->
+${enumConstant == 'CONSTANT_NAME'}     <!-- Java Enum comparison -->
 ```
 
 #### 1.1.5. Casting
