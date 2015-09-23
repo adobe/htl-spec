@@ -1,11 +1,11 @@
 Sightly HTML Templating Language Specification
 ====
 
-**Version:** 1.1  
+**Version:** 1.2  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
-**Status:** Final release  
-**Release:** 16 February 2015
+**Status:** Draft  
+**Release:** TBD
 
 #### Contents
 1. [Expression language, syntax and semantics](#1-expression-language-syntax-and-semantics)  
