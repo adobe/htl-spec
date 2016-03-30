@@ -8,4 +8,4 @@ A Java-based reference implementation was [donated to the Apache Sling project](
 
 The [Technology Compatibility Kit](https://github.com/Adobe-Marketing-Cloud/sightly-tck) can be run on implementations to check their compliance with the specification.
 
-An implementation of [version 1.1](https://github.com/Adobe-Marketing-Cloud/sightly-spec/blob/1.1/SPECIFICATION.md) of the language specification was made available in AEM 6.1.
+An implementation of [version 1.2](https://github.com/Adobe-Marketing-Cloud/sightly-spec/blob/1.2/SPECIFICATION.md) of the language specification will be made available in AEM 6.2.
