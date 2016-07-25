@@ -1,4 +1,4 @@
-Sightly HTML Templating Language Specification
+HTML Template Language Specification
 ====
 
 **Version:** 1.2  
@@ -59,7 +59,7 @@ Sightly HTML Templating Language Specification
 ### 1.1. Syntax
 
 #### 1.1.1. Grammar
-The grammar of the Sightly Expression Language is pretty simple and can be summarised to the following definitions:
+The grammar of the HTL Expression Language is pretty simple and can be summarised to the following definitions:
 
     expression = '${' , [exprNode] , [ , '@' , optionList] , '}' ;
     
@@ -119,7 +119,7 @@ The grammar of the Sightly Expression Language is pretty simple and can be summa
           | '.' ('0'..'9'){'0'..'9'} [exponent]
           | ('0'..'9'){'0'..'9'} exponent ;
     
-    /* A Sightly comment can contain any character sequence other than '*/-->' */
+    /* An HTL comment can contain any character sequence other than '*/-->' */
     comment = '<!--/*' {-('*/-->')} '*/-->' ;
     
     /* A string can be delimited by either double or single quotes. Within these delimiters it may contain either escape sequences or any characters other than backslash and whichever quote was used for delimiting. */
@@ -163,7 +163,7 @@ Unicode escape sequences: `\u` followed by 4 hexadecimal digits (e.g.: `\u0022` 
 Like in JSP (see section "1.2.2 Literal-expression" from the [JSP 2.1 Expression Language Specification](http://download.oracle.com/otn-pub/jcp/jsp-2.1-fr-spec-oth-JSpec/jsp-2_1-fr-spec-el.pdf)), to escape an expression (the `${`), it can be prefixed it with a backslash (`\${`).
 
 #### 1.1.2. Expressions
-Here are some examples of Sightly expressions:
+Here are some examples of HTL expressions:
 
 ```html
 <!--/* Identifiers: */-->
@@ -240,7 +240,7 @@ ${properties.pageTitle || properties.jcr:title || resource.name}
 ```
 
 ##### 1.1.4.2. Comparison Operators
-Sightly also provides a set of strict comparison operators which can be used for comparing values of operands of the same type; no type conversion will be applied to any of the operands. The equality operators (`==`, `!=`) work similarly to the [JavaScript `===`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) and the [JavaScript `!==`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) identity operators.
+HTL also provides a set of strict comparison operators which can be used for comparing values of operands of the same type; no type conversion will be applied to any of the operands. The equality operators (`==`, `!=`) work similarly to the [JavaScript `===`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) and the [JavaScript `!==`](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.4) identity operators.
 
 ```html
 ${nullValueOne == nullValueTwo}        <!-- null comparison -->
@@ -330,15 +330,15 @@ ${myVar @ argOne, argTwo=myVar, argThree='string', argFour=[myVar, 'string']}
 ```
 
 #### 1.1.9. Comments
-Sightly comments combine HTML and JavaScript multi-line comments: `<!--/* */-->`
+HTL comments combine HTML and JavaScript multi-line comments: `<!--/* */-->`
 
-Sightly comments are not evaluated and are removed from the result.
+HTL comments are not evaluated and are removed from the result.
 
 ```html
 <!--/* The content of this comment will be removed from the output. */-->
 ```
 
-Sightly expressions inside HTML comments are evaluated, but not block statements:
+HTL expressions inside HTML comments are evaluated, but not block statements:
 
 ```html
 <!-- Page title: ${currentPage.jcr:title} -->
@@ -347,7 +347,7 @@ Sightly expressions inside HTML comments are evaluated, but not block statements
 ### 1.2. Available Expression Options
 
 #### 1.2.1. Display Context
-To protect against cross-site scripting (XSS) vulnerabilities, Sightly automatically recognises the context within which an output string is to be displayed within the final HTML output, and escapes that string appropriately. 
+To protect against cross-site scripting (XSS) vulnerabilities, HTL automatically recognises the context within which an output string is to be displayed within the final HTML output, and escapes that string appropriately. 
 
 It is also possible to override the automatic display context handling with the `context` option.
 
@@ -376,7 +376,7 @@ Note that `context='elementName'` allows only the following element names:
 section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address, main, p, pre, blockquote, ol, li, dl, dt, dd, figure, figcaption, div, a, em, strong, small, s, cite, q, dfn, abbr, data, time, code, var, samp, kbd, sub, sup, i, b, u, mark, ruby, rt, rp, bdi, bdo, span, br, wbr, ins, del, table, caption, colgroup, col, tbody, thead, tfoot, tr, td, th
 ```
 
-If you want to use Sightly expressions within HTML comments you might need to adjust the context depending on what you want to output, as the automatically implied context will be `comment`:
+If you want to use HTL expressions within HTML comments you might need to adjust the context depending on what you want to output, as the automatically implied context will be `comment`:
 
 ```html
 <!--[if IE]><link rel="shortcut icon" href="${site.root @ context='uri'}/images/favicon/favicon.ico?v2"><![endif]-->
@@ -592,25 +592,25 @@ URI manipulation can be performed by adding any of the following options to an e
       
       {
         "query": {
-          "q" : "sightly",
+          "q" : "htl",
           "array" : [1, 2, 3]
         }
       }
   -->
   
   ${'http://www.example.org/search' @ query=jsuse.query}
-  <!-- outputs: http://www.example.org/search?q=sightly&amp;array=1&amp;array=2&amp;array=3 -->
+  <!-- outputs: http://www.example.org/search?q=htl&amp;array=1&amp;array=2&amp;array=3 -->
   
   ${'http://www.example.org/search?s=1' @ addQuery=jsuse.query}
-  <!-- outputs: http://www.example.org/search?s=1&amp;q=sightly&amp;array=1&amp;array=2&amp;array=3 -->
+  <!-- outputs: http://www.example.org/search?s=1&amp;q=htl&amp;array=1&amp;array=2&amp;array=3 -->
   
-  ${'http://www.example.org/search?s=1&q=sightly' @ removeQuery='q'}
+  ${'http://www.example.org/search?s=1&q=htl' @ removeQuery='q'}
   <!-- outputs: http://www.example.org/search?s=1 -->
   
-  ${'http://www.example.org/search?s=1&q=sightly' @ removeQuery=['s', 'q']}
+  ${'http://www.example.org/search?s=1&q=htl' @ removeQuery=['s', 'q']}
   <!-- outputs: http://www.example.org/search -->
   
-  ${'http://www.example.org/search?s=1&q=sightly' @ query}
+  ${'http://www.example.org/search?s=1&q=htl' @ query}
   <!-- outputs: http://www.example.org/search -->
   ```
   
@@ -630,7 +630,7 @@ URI manipulation can be performed by adding any of the following options to an e
 ## 2. Block Statements
 
 ### 2.1. Syntax
-Sightly block plugins are defined by `data-sly-*` attributes set on HTML elements. Elements can have a closing tag or be self-closing. Attributes can have values (which can be static strings or expressions), or simply be boolean attributes (without a value).
+HTL block plugins are defined by `data-sly-*` attributes set on HTML elements. Elements can have a closing tag or be self-closing. Attributes can have values (which can be static strings or expressions), or simply be boolean attributes (without a value).
 
 ```html
 <tag data-sly-BLOCK></tag>                                 <!--/* A block is simply consists in a data-sly attribute set on an element. */-->
@@ -994,7 +994,7 @@ When iterating over `Map` objects, the item variable contains the key of each ma
 * **Attribute value:** required; the file to include.
 * **Attribute identifier:** none.
 
-Includes the output of a rendering script run with the current context, passing back control to the current Sightly script.
+Includes the output of a rendering script run with the current context, passing back control to the current HTL script.
 
 ```html
 <div data-sly-include="template.html"></div>
@@ -1145,10 +1145,10 @@ Although not a valid HTML 5 tag, the `<sly>` tag can be displayed in the final o
 ```
 
 ## 4. Use-API
-The Sightly templating language encourages separation of concerns by not allowing business logic to mix with markup. However, business logic can be implemented through the Use-API.
+HTL encourages separation of concerns by not allowing business logic to mix with markup. However, business logic can be implemented through the Use-API.
 
 ### 4.1. Java Use-API
-The Java Use-API can be used for loading business logic objects to be used in Sightly scripts through `data-sly-use`. A Java Use-API object can be a simple POJO, instantiated by a particular implementation through the POJO's default constructor.
+The Java Use-API can be used for loading business logic objects to be used in HTL scripts through `data-sly-use`. A Java Use-API object can be a simple POJO, instantiated by a particular implementation through the POJO's default constructor.
 
 The Use-API POJOs can also expose a public method, called `init`, with the following signature:
 
@@ -1156,12 +1156,12 @@ The Use-API POJOs can also expose a public method, called `init`, with the follo
     /**
      * Initialises the Use bean.
      *
-     * @param bindings All bindings available to the Sightly scripts.
+     * @param bindings All bindings available to the HTL scripts.
      **/ 
     public void init(javax.script.Bindings bindings);
 ``` 
 
-The `bindings` map can contain objects that provide context to the currently executed Sightly script that the Use-API object can use for its processing.
+The `bindings` map can contain objects that provide context to the currently executed HTL script that the Use-API object can use for its processing.
 
 ### 4.2. JavaScript Use-API
 Use objects can also be defined with JavaScript, using the following conventions:
