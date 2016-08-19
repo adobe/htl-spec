@@ -868,7 +868,7 @@ Numbers are cast to strings (i.e. zero doesn't remove the attribute):
 Changes the element, mostly useful for setting element tags like `h1..h6`, `th`, `td`, `ol`, `ul`.
 
 ```html
-<div data-sly-element"${'h1'}">Blah</div>
+<div data-sly-element="${'h1'}">Blah</div>
 <!--/* outputs: */-->
 <h1>Blah</h1>
 ```
