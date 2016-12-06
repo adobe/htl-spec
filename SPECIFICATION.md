@@ -383,13 +383,41 @@ If you want to use HTL expressions within HTML comments you might need to adjust
 ```
 
 #### 1.2.2. Format
-This option can be used to format strings.
+This option can be used to format strings, dates and numbers. A formatting pattern string must be supplied in the expression and the `format` option will contain the value(s) to be used. Type of formatting will be decided based on:
+
+1. `type` option, if present
+2. placeholders (eg: `{0}`) in the pattern, triggers string formatting
+3. type of `format` option object, if date or number
+4. default, fallback to string formatting
+
+
+##### 1.2.2.1. Strings
 ```html
 <!--/* Numbered parameters for injecting variables: */-->
 ${'Assets {0}' @ format=properties.assetName}   <!--/* Basically a shortcut of the array notation, useful when it has only one element */-->
 ${'Assets {0}' @ format=[properties.assetName]}
 ${'Assets {0} - {1} of {2}' @ format=[properties.first, properties.last, properties.total]}
 ```
+
+##### 1.2.2.2. Dates
+Date formatting supports timezone and locale
+```html
+<!--/* Formatting pattern: */-->
+${'yyyy-MM-dd' @ format=myDate}
+${'yyyy-MM-dd' @ format=myDate, type='date'}                <!--/* Forced formatting type */-->
+${'yyyy-MM-dd HH:mm' @ format=myDate, timezone='GMT+00:30'} <!--/* Timezone */-->
+${'dd MMMM yyyy, EEEE' @ format=myDate, locale='de'}        <!--/* Locale */-->
+```
+
+##### 1.2.2.3. Numbers
+Number formatting supports locale
+```html
+<!--/* Formatting pattern: */-->
+${'#.00' @ format=42}
+${'#.00' @ format=myNumber, type='number'} <!--/* Forced formatting type */-->
+${'#.00' @ format=myNumber, locale='de'} <!--/* Locale */-->
+```
+
 
 #### 1.2.3. i18n
 This option internationalises strings.
