@@ -1,7 +1,7 @@
 HTML Template Language Specification
 ====
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
 **Status:** Final release  
@@ -408,6 +408,18 @@ ${'yyyy-MM-dd' @ format=myDate, type='date'}                <!--/* Forced format
 ${'yyyy-MM-dd HH:mm' @ format=myDate, timezone='GMT+00:30'} <!--/* Timezone */-->
 ${'dd MMMM yyyy, EEEE' @ format=myDate, locale='de'}        <!--/* Locale */-->
 ```
+The formatting pattern supports, at minimum, the following letters:
+* y - Year. Variants: yy, yyyy
+* M - Month in year. Variants: MM, MMM, MMMM
+* d - Day in month. Variants: dd
+* H - Hour in day (0-23). Variants: HH 
+* m - Minute in hour. Variants: mm
+* s - Second in minute. Variants: ss
+* S - Millisecond. Variants: SSS
+* E - Day name in week. Variants: EEEE
+* X - Time zone in ISO 8601 format. Variants: XX, XXX
+
+Letters of text can be escaped using single quotes. Single quotes are escaped as two in a row. Other characters are not interpreted.
 
 ##### 1.2.2.3. Numbers
 Number formatting supports locale
@@ -417,7 +429,17 @@ ${'#.00' @ format=42}
 ${'#.00' @ format=myNumber, type='number'} <!--/* Forced formatting type */-->
 ${'#.00' @ format=myNumber, locale='de'} <!--/* Locale */-->
 ```
+The formatting pattern supports both a positive and negative pattern, separated by semicolon. Each subpattern can have a prefix, a numeric part and a suffix. The negative subpattern can only change the prefix or/and suffix. The following characters are supported, at minimum:
+* 0 - digit, shows as 0 if absent
+* # - digit, does not show if absent
+* . - decimal separator
+* - - minus sign
+* , - grouping separator
+* E - separator between mantissa and exponent
+* ; - subpattern boundary
+* % - multiply by 100 and show as percentage
 
+Characters can be escaped in prefix or suffix using single quotes. Single quotes are escaped as two in row. 
 
 #### 1.2.3. i18n
 This option internationalises strings.
