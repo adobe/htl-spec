@@ -425,7 +425,7 @@ The formatting pattern supports, at minimum, the following letters:
 * Z -	RFC 822 time zone
 * E - Day name in week. Variants: EEEE
 
-Letters of text can be escaped using single quotes. Single quotes are escaped as two in a row. Other characters are not interpreted.
+Letters (a-z, A-Z) are reserved for future possible use; if needed, they can be escaped using single quotes. Single quotes are escaped as two in a row. Other characters are not interpreted.
 
 Example:
 ```html
