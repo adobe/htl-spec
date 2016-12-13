@@ -411,15 +411,40 @@ ${'dd MMMM yyyy, EEEE' @ format=myDate, locale='de'}        <!--/* Locale */-->
 The formatting pattern supports, at minimum, the following letters:
 * y - Year. Variants: yy, yyyy
 * M - Month in year. Variants: MM, MMM, MMMM
+* w -	Week in year. Variants: ww
 * d - Day in month. Variants: dd
+* D -	Day in year. Variants: DD, DDD
 * H - Hour in day (0-23). Variants: HH 
+* a	- Am/pm marker
+* h	- Hour in am/pm. Variants: hh
 * m - Minute in hour. Variants: mm
 * s - Second in minute. Variants: ss
 * S - Millisecond. Variants: SSS
+* z -	General time zone
+* X - ISO 8601 time zone. Variants: XX, XXX
+* Z -	RFC 822 time zone
 * E - Day name in week. Variants: EEEE
-* X - Time zone in ISO 8601 format. Variants: XX, XXX
 
 Letters of text can be escaped using single quotes. Single quotes are escaped as two in a row. Other characters are not interpreted.
+
+Example:
+```html
+${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=obj.date, timezone='UTC'}
+${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=obj.date, timezone='GMT+02:00'}
+${'yyyy-MM-dd HH:mm:ss.SSS(z)' @ format=obj.date, timezone='GMT+02:00'}
+${'yyyy-MM-dd HH:mm:ss.SSSZ' @ format=obj.date, timezone='GMT+02:00'}
+${'dd MMMM \'\'yy hh:mm a; \'day in year\': D; \'day in month\': w' @ format=obj.date, timezone='UTC'}
+${'EEEE, d MMM y ' @ format=obj.date, timezone='UTC', locale='de'}
+```
+will generate the following output for the date `1918-12-01 00:00:00Z`
+```
+1918-12-01 00:00:00.000Z
+1918-12-01 02:00:00.000+02:00
+1918-12-01 02:00:00.000(GMT+02:00)
+1918-12-01 02:00:00.000+0200
+01 December '18 12:00 AM; day in year: 335; day in month: 49
+Sonntag, 1 Dez 1918 
+```
 
 ##### 1.2.2.3. Numbers
 Number formatting supports locale
