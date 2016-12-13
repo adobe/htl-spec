@@ -399,8 +399,10 @@ ${'Assets {0}' @ format=[properties.assetName]}
 ${'Assets {0} - {1} of {2}' @ format=[properties.first, properties.last, properties.total]}
 ```
 
+String formatting can be combined with the `i18n` option so that placeholders are replaced after the string has been run through the dictionary.
+
 ##### 1.2.2.2. Dates
-Date formatting supports timezone and locale
+Date formatting supports timezones and localization. In case internationalization is also specified, it will be applied to the formatting pattern and the locale will be passed forward to formatting.
 ```html
 <!--/* Formatting pattern: */-->
 ${'yyyy-MM-dd' @ format=myDate}
@@ -447,7 +449,7 @@ Sonntag, 1 Dez 1918
 ```
 
 ##### 1.2.2.3. Numbers
-Number formatting supports locale
+Number formatting supports localization. In case internationalization is also specified, it will be applied to the formatting pattern and the locale will be passed forward to formatting.
 ```html
 <!--/* Formatting pattern: */-->
 ${'#.00' @ format=42}
@@ -497,14 +499,6 @@ When this option is used, two more options take a special meaning:
 
 ```html
 ${'Assets' @ i18n, locale='en-US', hint='Translation Hint'}
-```
-
-The `i18n` option can be combined with the format option, which replaces the placeholders after the string has been run through the dictionary:
-
-```html
-${'Assets {0} - {1} of {2}' @ i18n, format=[properties.first, properties.last, properties.total]}
- 
-${'<span class="count">{0}</span> Assets' @ i18n, format=properties.total, hint='Translation Hint', context='html'}
 ```
 
 #### 1.2.4. Array Join
