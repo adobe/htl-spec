@@ -1,7 +1,7 @@
 HTML Template Language Specification
 ====
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
 **Status:** Final release  
@@ -383,12 +383,106 @@ If you want to use HTL expressions within HTML comments you might need to adjust
 ```
 
 #### 1.2.2. Format
-This option can be used to format strings.
+This option can be used to format strings, dates and numbers. A formatting pattern string must be supplied in the expression and the `format` option will contain the value(s) to be used. Type of formatting will be decided based on:
+
+1. `type` option, if present
+2. placeholders (eg: `{0}`) in the pattern, triggers string formatting
+3. type of `format` option object, if date or number
+4. default, fallback to string formatting
+
+
+##### 1.2.2.1. Strings
 ```html
 <!--/* Numbered parameters for injecting variables: */-->
 ${'Assets {0}' @ format=properties.assetName}   <!--/* Basically a shortcut of the array notation, useful when it has only one element */-->
 ${'Assets {0}' @ format=[properties.assetName]}
 ${'Assets {0} - {1} of {2}' @ format=[properties.first, properties.last, properties.total]}
+```
+
+String formatting can be combined with the `i18n` option so that placeholders are replaced after the string has been run through the dictionary.
+
+##### 1.2.2.2. Dates
+Date formatting supports timezones and localization. In case internationalization is also specified, it will be applied to the formatting pattern and the locale will be passed forward to formatting.
+```html
+<!--/* Formatting pattern: */-->
+${'yyyy-MM-dd' @ format=myDate}
+${'yyyy-MM-dd' @ format=myDate, type='date'}                <!--/* Forced formatting type */-->
+${'yyyy-MM-dd HH:mm' @ format=myDate, timezone='GMT+00:30'} <!--/* Timezone */-->
+${'dd MMMM yyyy, EEEE' @ format=myDate, locale='de'}        <!--/* Locale */-->
+```
+The formatting pattern supports, at minimum, the following letters:
+* y - Year. Variants: yy, yyyy
+* M - Month in year. Variants: MM, MMM, MMMM
+* w -	Week in year. Variants: ww
+* d - Day in month. Variants: dd
+* D -	Day in year. Variants: DD, DDD
+* H - Hour in day (0-23). Variants: HH 
+* a	- Am/pm marker
+* h	- Hour in am/pm. Variants: hh
+* m - Minute in hour. Variants: mm
+* s - Second in minute. Variants: ss
+* S - Millisecond. Variants: SSS
+* z -	General time zone
+* X - ISO 8601 time zone. Variants: XX, XXX
+* Z -	RFC 822 time zone
+* E - Day name in week. Variants: EEEE
+
+Letters (a-z, A-Z) are reserved for future possible use; if needed, they can be escaped using single quotes. Single quotes are escaped as two in a row. Other characters are not interpreted.
+
+Example:
+```html
+${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=obj.date, timezone='UTC'}
+${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=obj.date, timezone='GMT+02:00'}
+${'yyyy-MM-dd HH:mm:ss.SSS(z)' @ format=obj.date, timezone='GMT+02:00'}
+${'yyyy-MM-dd HH:mm:ss.SSSZ' @ format=obj.date, timezone='GMT+02:00'}
+${'dd MMMM \'\'yy hh:mm a; \'day in year\': D; \'day in month\': w' @ format=obj.date, timezone='UTC'}
+${'EEEE, d MMM y ' @ format=obj.date, timezone='UTC', locale='de'}
+```
+will generate the following output for the date `1918-12-01 00:00:00Z`
+```
+1918-12-01 00:00:00.000Z
+1918-12-01 02:00:00.000+02:00
+1918-12-01 02:00:00.000(GMT+02:00)
+1918-12-01 02:00:00.000+0200
+01 December '18 12:00 AM; day in year: 335; day in month: 49
+Sonntag, 1 Dez 1918 
+```
+
+##### 1.2.2.3. Numbers
+Number formatting supports localization. In case internationalization is also specified, it will be applied to the formatting pattern and the locale will be passed forward to formatting.
+```html
+<!--/* Formatting pattern: */-->
+${'#.00' @ format=42}
+${'#.00' @ format=myNumber, type='number'} <!--/* Forced formatting type */-->
+${'#.00' @ format=myNumber, locale='de'} <!--/* Locale */-->
+```
+The formatting pattern supports both a positive and negative pattern, separated by semicolon. Each subpattern can have a prefix, a numeric part and a suffix. The negative subpattern can only change the prefix or/and suffix. The following characters are supported, at minimum:
+* 0 - digit, shows as 0 if absent
+* # - digit, does not show if absent
+* . - decimal separator
+* - - minus sign
+* , - grouping separator
+* E - separator between mantissa and exponent
+* ; - subpattern boundary
+* % - multiply by 100 and show as percentage
+
+Characters can be escaped in prefix or suffix using single quotes. Single quotes are escaped as two in row. 
+
+Example:
+```html
+${'#,###.00' @ format=1000}
+${'#.###;-#.###' @ format=obj.number}
+${'#.00;(#.00)' @ format=obj.number}
+${'#.000E00' @ format=obj.number}
+${'#%' @ format=obj.number}
+```
+will generate the following output for the number `-3.14`
+```
+1,000.00
+-3.14
+(3.14)
+-.314E01
+-314%
 ```
 
 #### 1.2.3. i18n
@@ -405,14 +499,6 @@ When this option is used, two more options take a special meaning:
 
 ```html
 ${'Assets' @ i18n, locale='en-US', hint='Translation Hint'}
-```
-
-The `i18n` option can be combined with the format option, which replaces the placeholders after the string has been run through the dictionary:
-
-```html
-${'Assets {0} - {1} of {2}' @ i18n, format=[properties.first, properties.last, properties.total]}
- 
-${'<span class="count">{0}</span> Assets' @ i18n, format=properties.total, hint='Translation Hint', context='html'}
 ```
 
 #### 1.2.4. Array Join
