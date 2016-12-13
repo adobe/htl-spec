@@ -466,6 +466,23 @@ The formatting pattern supports both a positive and negative pattern, separated 
 
 Characters can be escaped in prefix or suffix using single quotes. Single quotes are escaped as two in row. 
 
+Example:
+```html
+${'#,###.00' @ format=1000}
+${'#.###;-#.###' @ format=obj.number}
+${'#.00;(#.00)' @ format=obj.number}
+${'#.000E00' @ format=obj.number}
+${'#%' @ format=obj.number}
+```
+will generate the following output for the number `-3.14`
+```
+1,000.00
+-3.14
+(3.14)
+-.314E01
+-314%
+```
+
 #### 1.2.3. i18n
 This option internationalises strings.
 
