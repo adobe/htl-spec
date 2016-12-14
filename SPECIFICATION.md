@@ -388,30 +388,51 @@ If you want to use HTL expressions within HTML comments you might need to adjust
 #### 1.2.2. Format
 This option can be used to format `Strings`, `Dates` and `Numbers`. A formatting pattern string must be supplied in the expression and the `format` option will contain the value(s) to be used. Type of formatting will be decided based on:
 
-1. the `type` option, if present (accepted values are `date` and `number`)
+1. the `type` option, if present (accepted values are `string`, `date` and `number`)
 2. placeholders (eg: `{0}`) in the pattern, triggers string formatting
 3. type of `format` option object, when the type is a `Date` or a `Number`
 4. default, fallback to string formatting
 
 ##### 1.2.2.1. Strings
-String formatting can be combined with the `i18n` option so that placeholders are replaced after the string has been run through the dictionary.
+String formatting can be combined with the [`i18n`](#123-i18n) option so that placeholders are replaced after the string has been run through the dictionary.
+
+##### Examples
 
 ```html
 <!--/* Numbered parameters for injecting variables: */-->
-${'Assets {0}' @ format=properties.assetName}   <!--/* Basically a shortcut of the array notation, useful when it has only one element */-->
-${'Assets {0}' @ format=[properties.assetName]}
-${'Assets {0} - {1} of {2}' @ format=[properties.first, properties.last, properties.total]}
+${'Asset {0}' @ format=properties.assetName}   <!--/* Basically a shortcut of the array notation, useful when it has only one element */-->
+${'Asset {0}' @ format=[properties.assetName]}
+${'Asset {0} out of {1}' @ format=[properties.current, properties.total]}
+${'Asset {0} out of {1}' @ format=[properties.current, properties.total], i18n, locale='de'}
+```
+
+will generate the following output
+
+```html
+Asset Night Sky
+Asset Night Sky
+Asset 3 out of 5
+Bild 3 von 5
+```
+
+assuming that
+
+```
+properties.assetName = 'Night Sky'
+properties.current   = 3
+properties.total     = 5
+formatter 'Asset {0} out of {1}' will be translated to 'Bild {0} von {1}' for the 'de' locale by i18n
 ```
 
 ##### 1.2.2.2. Dates
-Date formatting supports timezones and localisation. In case internationalisation is also specified, it will be applied to the formatting pattern and the locale will be passed forward to formatting.
+Date formatting supports timezones and localisation. In case internationalisation is also specified ([`i18n`](#123-i18n)), it will be applied to the formatting pattern and the locale will be passed forward to formatting.
 
 ```html
 <!--/* Formatting pattern: */-->
 ${'yyyy-MM-dd' @ format=myDate}
 ${'yyyy-MM-dd' @ format=myDate, type='date'}                <!--/* Forced formatting type */-->
 ${'yyyy-MM-dd HH:mm' @ format=myDate, timezone='GMT+00:30'} <!--/* Timezone */-->
-${'dd MMMM yyyy, EEEE' @ format=myDate, locale='de'}        <!--/* Locale */-->
+${'EEEE, dd MMMM yyyy' @ format=obj.date, locale='de'}      <!--/* Locale */-->
 ```
 
 The formatting pattern supports, at minimum, the following letters:
@@ -441,8 +462,9 @@ ${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=obj.date, timezone='UTC'}
 ${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=obj.date, timezone='GMT+02:00'}
 ${'yyyy-MM-dd HH:mm:ss.SSS(z)' @ format=obj.date, timezone='GMT+02:00'}
 ${'yyyy-MM-dd HH:mm:ss.SSSZ' @ format=obj.date, timezone='GMT+02:00'}
-${'dd MMMM \'\'yy hh:mm a; \'day in year\': D; \'day in month\': w' @ format=obj.date, timezone='UTC'}
-${'EEEE, d MMM y ' @ format=obj.date, timezone='UTC', locale='de'}
+${'dd MMMM \'\'yy hh:mm a; \'day in year\': D; \'week in year\': w' @ format=obj.date, timezone='UTC'}
+${'EEEE, d MMM y' @ format=obj.date, timezone='UTC', locale='de'}
+${'EEEE, d MMM y' @ format=obj.date, timezone='UTC', locale='en_US', i18n}
 ```
 
 will generate the following output for the date `1918-12-01 00:00:00Z`
@@ -452,18 +474,19 @@ will generate the following output for the date `1918-12-01 00:00:00Z`
 1918-12-01 02:00:00.000+02:00
 1918-12-01 02:00:00.000(GMT+02:00)
 1918-12-01 02:00:00.000+0200
-01 December '18 12:00 AM; day in year: 335; day in month: 49
-Sonntag, 1 Dez 1918 
+01 December '18 12:00 AM; day in year: 335; week in year: 49
+Sonntag, 1 Dez 1918
+Sunday, Dec 1, 1918  <!--/* assuming the formatter 'EEEE, d MMM y' will be translated to 'EEEE, MMM d, y' for the 'en_US' locale by i18n */--> 
 ```
 
 ##### 1.2.2.3. Numbers
-Number formatting supports localisation. In case internationalisation is also specified, it will be applied to the formatting pattern and the locale will be passed forward to formatting.
+Number formatting supports localisation. In case internationalisation is also specified ([`i18n`](#123-i18n)), it will be applied to the formatting pattern and the locale will be passed forward to formatting.
 
 ```html
 <!--/* Formatting pattern: */-->
 ${'#.00' @ format=42}
 ${'#.00' @ format=myNumber, type='number'} <!--/* Forced formatting type */-->
-${'#.00' @ format=myNumber, locale='de'} <!--/* Locale */-->
+${'#.00' @ format=myNumber, locale='de'}   <!--/* Locale */-->
 ```
 
 The formatting pattern supports both a positive and negative pattern, separated by semicolon. Each sub-pattern can have a prefix, a numeric part and a suffix. The negative sub-pattern can only change the prefix or/and suffix. The following characters are supported, at minimum:
@@ -487,6 +510,7 @@ ${'#.###;-#.###' @ format=obj.number}
 ${'#.00;(#.00)' @ format=obj.number}
 ${'#.000E00' @ format=obj.number}
 ${'#%' @ format=obj.number}
+${ 'curr #,###.##' @ format=1000.14, locale='de_CH', i18n}
 ```
 
 will generate the following output if `obj.number` evaluates to `-3.14`:
@@ -497,6 +521,7 @@ will generate the following output if `obj.number` evaluates to `-3.14`:
 (3.14)
 -.314E01
 -314%
+CHF 1'000.14 <!--/* assuming the formatter 'curr #,###.##' will be translated to 'CHF #,###.##' for the 'de_CH' locale by i18n */-->
 ```
 
 #### 1.2.3. i18n
@@ -508,12 +533,13 @@ ${'Assets' @ i18n} <!--/* Translates the string to the resource language */-->
 
 When this option is used, two more options take a special meaning:
 
-* `locale`: When set, it overrides the language from the source. For e.g.: `en-US` or `fr-CH`
+* `locale`: When set, it overrides the language from the source. For e.g.: `en_US` or `fr_CH`
 * `hint`: Allows to provide some information about the context for the translators.
 
 ```html
 ${'Assets' @ i18n, locale='en-US', hint='Translation Hint'}
 ```
+
 
 #### 1.2.4. Array Join
 The `join` option allows to control the output of an array object by specifying the separator string.
