@@ -4,8 +4,8 @@ HTML Template Language Specification
 **Version:** 1.3  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
-**Status:** Draft release  
-**Release:** TBD
+**Status:** Final release  
+**Release:** 15 December 2016
 
 #### Contents
 1. [Expression language, syntax and semantics](#1-expression-language-syntax-and-semantics)  
