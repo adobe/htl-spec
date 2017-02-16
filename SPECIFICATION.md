@@ -1020,7 +1020,7 @@ The evaluated result of the test statement can be assigned to an identifier to b
 
 ```html
 <p data-sly-test.editOrDesign="${wcmmode.edit || wcmmode.design}">show this in edit...</p>
-<p data-sly-test="${!editOrDesign and pageProperties.jcr:title}">show this when disabled...</p>
+<p data-sly-test="${!editOrDesign && pageProperties.jcr:title}">show this when disabled...</p>
 ```
 
 Note that the identifier contains the value of the condition as it was (not casting it to a `Boolean` value):
