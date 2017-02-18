@@ -35,7 +35,7 @@ HTML Template Language Specification
 2. [Block Statements](#2-block-statements)
   1. [Syntax](#21-syntax)
     1. [Identifiers](#211-identifiers)
-  2. [Available Block Elements](#22-available-block-elements)
+  2. [Available Block Statements](#22-available-block-statements)
     1. [Use](#221-use)
     2. [Text](#222-text)
     3. [Attribute](#223-attribute)
