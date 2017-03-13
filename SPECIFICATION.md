@@ -75,8 +75,7 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     
     valueList = exprNode {',' exprNode} ;
     
-    /* Note required space characters around ':' */
-    exprNode = binaryOp , '?' , binaryOp , ws , ' : ' , ws , binaryOp
+    exprNode = binaryOp , '?' , binaryOp , ws , ':' , ws , binaryOp
              | binaryOp ;
     
     binaryOp = factor { , operator , factor} ;
@@ -96,10 +95,13 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     ws = ' '
        | '\t'
        | '\r'
-       | '\n' ;
+       | '\n'
+       | '\u000B'
+       | '\u00A0';
     
     /* Note that unlike terminals above, the field access character '.' cannot have optional whitespace around it */
-    propertyAccess = atom {'.' field} ;
+    propertyAccess = atom {'.' field}
+                   | atom {'[' , exprNode , ']'};
     
     field = string
           | id ;
