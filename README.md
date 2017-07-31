@@ -8,4 +8,4 @@ A Java-based reference implementation has been [donated to the Apache Sling proj
 
 The [Technology Compatibility Kit](https://github.com/Adobe-Marketing-Cloud/htl-tck) can be run on implementations to check their compliance with the specification.
 
-An implementation of [version 1.2](https://github.com/Adobe-Marketing-Cloud/htl-spec/blob/1.2/SPECIFICATION.md) of the language specification is available in AEM 6.2.
+An implementation of [version 1.3](https://github.com/Adobe-Marketing-Cloud/htl-spec/blob/1.3/SPECIFICATION.md) of the language specification is available in AEM 6.3.
