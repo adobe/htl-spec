@@ -1,11 +1,11 @@
 HTML Template Language Specification
 ====
 
-**Version:** 1.3  
+**Version:** 1.3.1  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
 **Status:** Final release  
-**Release:** 15 December 2016
+**Release:** 31 July 2017
 
 #### Contents
 1. [Expression language, syntax and semantics](#1-expression-language-syntax-and-semantics)  
@@ -565,9 +565,6 @@ URI manipulation can be performed by adding any of the following options to an e
 * `scheme` - allows adding or removing the scheme part for a URI
   
   ```html
-  ${'example.com/path/page.html' @ scheme='http'}
-  <!-- outputs: http://example.com/path/page.html -->
-  
   ${'//example.com/path/page.html' @ scheme='http'}
   <!-- outputs: http://example.com/path/page.html -->
   
@@ -640,10 +637,10 @@ URI manipulation can be performed by adding any of the following options to an e
   <!-- outputs: path/page.foo.bar.html -->
   
   ${'path/page.woo.foo.html' @ addSelectors='foo.bar'}
-  <!-- outputs: path/page.woo.foo.bar.html -->
+  <!-- outputs: path/page.woo.foo.foo.bar.html -->
   
   ${'path/page.woo.foo.html' @ addSelectors=['foo', 'bar']}
-  <!-- outputs: path/page.woo.foo.bar.html -->
+  <!-- outputs: path/page.woo.foo.foo.bar.html -->
   
   ${'path/page.woo.foo.html' @ removeSelectors='foo.bar'}
   <!-- outputs: path/page.woo.html -->
@@ -726,19 +723,19 @@ URI manipulation can be performed by adding any of the following options to an e
       }
   -->
   
-  ${'http://www.example.org/search' @ query=jsuse.query}
-  <!-- outputs: http://www.example.org/search?q=htl&amp;array=1&amp;array=2&amp;array=3 -->
-  
-  ${'http://www.example.org/search?s=1' @ addQuery=jsuse.query}
-  <!-- outputs: http://www.example.org/search?s=1&amp;q=htl&amp;array=1&amp;array=2&amp;array=3 -->
-  
-  ${'http://www.example.org/search?s=1&q=htl' @ removeQuery='q'}
+  ${'http://www.example.org/search' @ query=jsuse.query, context='uri'}
+  <!-- outputs: http://www.example.org/search?q=htl&array=1&array=2&array=3 -->
+
+  ${'http://www.example.org/search?s=1' @ addQuery=jsuse.query, context='uri'}
+  <!-- outputs: http://www.example.org/search?s=1&q=htl&array=1&array=2&array=3 -->
+
+  ${'http://www.example.org/search?s=1&q=htl' @ removeQuery='q', context='uri'}
   <!-- outputs: http://www.example.org/search?s=1 -->
-  
-  ${'http://www.example.org/search?s=1&q=htl' @ removeQuery=['s', 'q']}
+
+  ${'http://www.example.org/search?s=1&q=htl' @ removeQuery=['s', 'q'], context='uri'}
   <!-- outputs: http://www.example.org/search -->
-  
-  ${'http://www.example.org/search?s=1&q=htl' @ query}
+
+  ${'http://www.example.org/search?s=1&q=htl' @ query, context='uri'}
   <!-- outputs: http://www.example.org/search -->
   ```
   
