@@ -892,6 +892,8 @@ The attribute name and content are automatically XSS-protected accordingly, unle
 <input type="number" name="quantity" min="${qttMin @ context='number'}" max="${qttMax @ context='number'}"/>
 ```
 
+Event handler attributes (`on*`) and the `style` attribute cannot be generated with `data-sly-attribute` due to the fact that none of the available display contexts can fully protect against XSS attacks given the range of values that these attributes can contain.
+
 ##### 2.2.3.1. Detailed Examples
 For all examples below, consider that following object is available in the context:
 ```javascript
