@@ -1,11 +1,11 @@
 HTML Template Language Specification
 ====
 
-**Version:** 1.3.1  
+**Version:** 1.4  
 **Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
 **License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
-**Status:** Final release  
-**Release:** 31 July 2017
+**Status:** Draft  
+**Release:** TBD
 
 #### Contents
 1. [Expression language, syntax and semantics](#1-expression-language-syntax-and-semantics)  
@@ -1034,8 +1034,12 @@ Note that the identifier contains the value of the condition as it was (not cast
 
 #### 2.2.6. List
 **`data-sly-list`:**
-* Iterates over the content of each item in the attribute value.
-* **Element:** shown only if the number of items from the attribute value is greater than 0, or if the attribute value is a string or number.
+* Iterates over the content of each item in the attribute value, allowing to control the iteration through the following options:
+  * `begin` - iteration begins at the item located at the specified index; first item of the collection has index 0
+  * `step`  - iteration will only process every step items of the collection, starting with the first one
+  * `end`   - iteration ends at the item located at the specified index (inclusive)
+* **Element:** shown only if the number of items from the attribute value is greater than 0, or if the attribute value is a string or number;
+  when the `begin` value is used the element will be shown only if the `begin` value is smaller than the collection's size.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the content will not be shown.
 * **Attribute identifier:** optional; customised identifier name to access the item within the list element.
@@ -1051,6 +1055,16 @@ Repeats the content of the element for each item of the provided object (which c
 <!--/* This is how the name of the 'item' identifier can be customised. */-->
 <ul data-sly-list.childPage="${currentPage.listChildren}">
     <li>${childPage.title}</li>
+</ul>
+
+<!--/* Iteration control; start from the beginning, stop after the first 10 elements (index 9) */-->
+<ul data-sly-list="${currentPage.listChildren @ start = 0, end = 9}">
+    <li>${item.title}</li>
+</ul>
+
+<!--/* Iteration control; start from the 11th element (index 10), stop after the next 10 elements (index 19) */-->
+<ul data-sly-list="${currentPage.listChildren @ start = 10, end = 19}">
+    <li>${item.title}</li>
 </ul>
 ```
 
@@ -1075,7 +1089,11 @@ When iterating over `Map` objects, the item variable contains the key of each ma
 
 #### 2.2.7. Repeat
 **`data-sly-repeat`:**
-* Iterates over the content of each item in the attribute value and displays the containing element as many times as items in the attribute value.
+* Iterates over the content of each item in the attribute value and displays the containing element as many times as items in the attribute
+value, allowing to control the iteration through the following options:
+  * `begin` - iteration begins at the item located at the specified index; first item of the collection has index 0
+  * `step`  - iteration will only process every step items of the collection, starting with the first one
+  * `end`   - iteration ends at the item located at the specified index (inclusive)
 * **Element:** shown only if the number of items from the attribute value is greater than 0, or if the attribute value is a string or number.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the containing element and its content will not be shown.
@@ -1092,6 +1110,9 @@ Repeats the content of the element for each item of the provided object (which c
 
 <!--/* The 'item' identifier can be used on the defining element. */-->
 <div data-sly-repeat.article="${articlesCollection}" id="${article.id}">${article.excerpt}</div>
+
+<!--/* Iteration control; start from the beginning, stop after the first 10 elements (index 9) */-->
+<div data-sly-repeat.article="${articlesCollection @ start = 0, end = 9}" id="${article.id}">${article.excerpt}</div>
 ```
 
 An additional `itemList` (respectively `<variable>List` in case a custom identifier/variable was defined using `data-sly-repeat.<variable>`) identifier is also available within the scope, with the following members:
