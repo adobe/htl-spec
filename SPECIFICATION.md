@@ -1058,12 +1058,12 @@ Repeats the content of the element for each item of the provided object (which c
 </ul>
 
 <!--/* Iteration control; start from the beginning, stop after the first 10 elements (index 9) */-->
-<ul data-sly-list="${currentPage.listChildren @ start = 0, end = 9}">
+<ul data-sly-list="${currentPage.listChildren @ begin = 0, end = 9}">
     <li>${item.title}</li>
 </ul>
 
 <!--/* Iteration control; start from the 11th element (index 10), stop after the next 10 elements (index 19) */-->
-<ul data-sly-list="${currentPage.listChildren @ start = 10, end = 19}">
+<ul data-sly-list="${currentPage.listChildren @ begin = 10, end = 19}">
     <li>${item.title}</li>
 </ul>
 ```
@@ -1112,7 +1112,7 @@ Repeats the content of the element for each item of the provided object (which c
 <div data-sly-repeat.article="${articlesCollection}" id="${article.id}">${article.excerpt}</div>
 
 <!--/* Iteration control; start from the beginning, stop after the first 10 elements (index 9) */-->
-<div data-sly-repeat.article="${articlesCollection @ start = 0, end = 9}" id="${article.id}">${article.excerpt}</div>
+<div data-sly-repeat.article="${articlesCollection @ begin = 0, end = 9}" id="${article.id}">${article.excerpt}</div>
 ```
 
 An additional `itemList` (respectively `<variable>List` in case a custom identifier/variable was defined using `data-sly-repeat.<variable>`) identifier is also available within the scope, with the following members:
