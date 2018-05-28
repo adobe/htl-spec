@@ -16,6 +16,7 @@ HTML Template Language Specification
         4. [Operators](#114-operators)
             1. [Logical Operators](#1141-logical-operators)
             2. [Comparison Operators](#1142-comparison-operators)
+            3. [Relational Operators](#1143-relational-operators)
         5. [Casting](#115-casting)
             1. [Boolean](#1151-boolean)
             2. [String](#1152-string)
@@ -262,6 +263,51 @@ ${booleanValueOne == booleanValueTwo}  <!-- boolean comparison -->
 ${booleanValueOne != booleanValueTwo}  <!-- boolean comparison -->
 ${enumConstant == 'CONSTANT_NAME'}     <!-- Java Enum comparison -->
 ```
+
+##### 1.1.4.3. Relational Operators
+The `in` relational operator can be used to:
+
+1. Check if a `String` is contained by another `String`:
+    ```html
+    ${'a' in 'abc'} <!--/* returns true */-->
+    ${'ab' in 'abc'} <!--/* returns true */-->
+    ${'bc' in 'abc'} <!--/* returns true */-->
+    ${'abc' in 'abc'} <!--/* returns true */-->
+    ${'d' in 'abc'} <!--/* returns false */-->
+    ```
+
+2. Check if an `Array` or a `List` contains an object:
+    ```html
+    <!--/*
+      Assuming myArray would be in scope and would have the following content:
+      [100, 200, 300, 400, 500]
+    */-->
+    ${100 in myArray} <!--/* returns true */-->
+    ${300 in myArray} <!--/* returns true */-->
+    ${1 in myArray} <!--/* returns false */-->
+    ```
+
+3. Check if an object has a property or a `Map` has a key:
+
+    Assuming the following use object (more details in the [Use-API](#4-use-api) section) provided by a `logic.js` file:
+    ```javascript
+    use(function () {
+        return {
+            a: true,
+            b: 'two',
+            c: 3
+        };
+    });
+    ```
+
+    ```html
+    <sly data-sly-use.logic="logic.js" />
+    ${'a' in logic} <!--/* returns true */-->
+    ${'b' in logic} <!--/* returns true */-->
+    ${'c' in logic} <!--/* returns true */-->
+    ${'two' in logic} <!--/* returns false */-->
+    ```
+
 
 #### 1.1.5. Casting
 
