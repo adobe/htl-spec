@@ -1118,8 +1118,8 @@ An additional `itemList` (respectively `<variable>List` in case a custom identif
 * `first`: `true` for the first element being iterated;
 * `middle`: `true` if element being iterated is neither the first nor the last;
 * `last`: `true` for the last element being iterated;
-* `odd`: `true` if index is odd;
-* `even`: `true` if index is even;
+* `odd`: `true` if `count` is odd;
+* `even`: `true` if `count` is even.
 
 When iterating over `Map` objects, the item variable contains the key of each map item:
 
@@ -1165,8 +1165,8 @@ An additional `itemList` (respectively `<variable>List` in case a custom identif
 * `first`: `true` for the first element being iterated;
 * `middle`: `true` if element being iterated is neither the first nor the last;
 * `last`: `true` for the last element being iterated;
-* `odd`: `true` if index is odd;
-* `even`: `true` if index is even;
+* `odd`: `true` if `count` is odd;
+* `even`: `true` if `count` is even.
 
 When iterating over `Map` objects, the item variable contains the key of each map item:
 
