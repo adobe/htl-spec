@@ -83,7 +83,16 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     
     andBinaryOp = inBinaryOp {, '&&', inBinaryOp};
 
-    inBinaryOp = factor {, 'in', factor};
+    inBinaryOp = comparisonOp {, 'in', comparisonOp};
+
+    comparisonOp = factor {, comparisonOperator, factor};
+
+    comparisonOperator = '<'
+         | '<='
+         | '=='
+         | '>='
+         | '>'
+         | '!=' ;
     
     factor = term
            | '!' , term ;
