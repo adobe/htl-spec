@@ -76,19 +76,21 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     
     valueList = exprNode {',' exprNode} ;
     
-    exprNode = binaryOp , '?' , binaryOp , ws , ':' , ws , binaryOp
-             | binaryOp ;
+    exprNode = orBinaryOp , '?' , orBinaryOp , ws , ':' , ws , orBinaryOp
+             | orBinaryOp ;
     
-    binaryOp = factor { , operator , factor} ;
+    orBinaryOp = andBinaryOp {, '||', andBinaryOp};
     
-    operator = '&&'
-             | '||' ;
+    andBinaryOp = inBinaryOp {, '&&', inBinaryOp};
+
+    inBinaryOp = factor {, 'in', factor};
     
     factor = term
            | '!' , term ;
     
     term = propertyAccess
-         | '(' , exprNode  , ')' ;
+         | '(' , exprNode  , ')'
+         | '[', valueList, ']' ;
     
     /* Note the 'comma rule' means zero or more whitespace characters. Used to indicate optional whitespace around terminals above */
     , = {ws} ;
