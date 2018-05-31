@@ -137,14 +137,9 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     exponent = ('e'|'E') ['+'|'-'] ('0'..'9'){'0'..'9'} ;
     
     escSeq = '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
-           | unicodeEsc
-           | octalEsc ;
+           | unicodeEsc;
     
     unicodeEsc = '\\' 'u' hexDigit hexDigit hexDigit hexDigit ;
-    
-    octalEsc = '\\' ('0'..'3') ('0'..'7') ('0'..'7')
-             | '\\' ('0'..'7') ('0'..'7')
-             | '\\' ('0'..'7') ;
     
     hexDigit = ('0'..'9'|'a'..'f'|'A'..'F') ;
 
