@@ -112,12 +112,9 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
        | '\u00A0';
     
     /* Note that unlike terminals above, the field access character '.' cannot have optional whitespace around it */
-    propertyAccess = atom {'.' field}
+    propertyAccess = atom {'.' id}
                    | atom {'[' , exprNode , ']'};
-    
-    field = string
-          | id ;
-    
+
     atom = string
          | id
          | int
