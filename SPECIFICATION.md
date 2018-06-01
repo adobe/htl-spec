@@ -126,12 +126,12 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     
     id = ('a'..'z'|'A'..'Z'|'_') {'a'..'z'|'A'..'Z'|'0'..'9'|'_'|':'} ;
     
-    int = ('1'..'9'){'0'..'9'}
+    int = ['-']('1'..'9'){'0'..'9'}
         | '0' ;
     
-    float = ('0'..'9'){'0'..'9'} '.' {'0'..'9'} [exponent]
-          | '.' ('0'..'9'){'0'..'9'} [exponent]
-          | ('0'..'9'){'0'..'9'} exponent ;
+    float = ['-']('1'..'9'){'0'..'9'} '.' {'0'..'9'} [exponent]
+          | ['-']'0.' ('0'..'9') {'0'..'9'} [exponent]
+          | ['-']('1'..'9'){'0'..'9'} exponent ;
     
     /* An HTL comment can contain any character sequence other than '*/-->' */
     comment = '<!--/*' {-('*/-->')} '*/-->' ;
