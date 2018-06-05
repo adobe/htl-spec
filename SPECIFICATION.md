@@ -52,6 +52,7 @@ HTML Template Language Specification
             2. [Call](#22102-call)
             3. [Examples](#22103-examples)
         11. [Unwrap](#2211-unwrap)
+        12. [Set](#2212-set)
 3. [Special HTML tags](#3-special-html-tags)
     1. [&lt;sly&gt;](#31-sly)
 4. [Use-API](#4-use-api)
@@ -1325,6 +1326,21 @@ When some parameters are missing in a template call, that parameter would be ini
  
 <!--/* This would show a <div> around "Foo" only if the test is false: */-->
 <div data-sly-unwrap="${myTest}">Foo</div>
+```
+
+#### 2.2.12. Set
+**`data-sly-set`:**
+
+* Defines a new identifier with a pre-defined value.
+* **Element:** always shown.
+* **Content of element:** always shown.
+* **Attribute value:** optional; the value to store in the provided identifier.
+* **Attribute identifier:** required; identifier name to access the stored value.
+* **Scope:** The identifier set by the `data-sly-set` block element is global to the script and can be used anywhere after its declaration.
+
+```html
+<span data-sly-set.profile="${user.profile}">Hello, ${profile.firstName} ${profile.lastName}!</span>
+<a class="profile-link" href="${profile.url}">Edit your profile</a>
 ```
 
 ## 3. Special HTML tags
