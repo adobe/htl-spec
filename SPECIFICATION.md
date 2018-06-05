@@ -1053,17 +1053,17 @@ The element name is automatically XSS-protected with the `elementName` context, 
 
 #### 2.2.5. Test
 **`data-sly-test`:**
-* Keeps, or removes the element depending on the attribute value.
+* Keeps or removes the element depending on the attribute value.
 * **Element:** shown if test evaluates to `true`.
 * **Content of element:** shown if test evaluates to `true`.
 * **Attribute value:** optional; evaluated as `Boolean` (but not type-cased to `Boolean` when exposed in a variable); evaluates to `false` if the value is omitted.
 * **Attribute identifier:** optional; identifier name to access the result of the test.
 * **Scope:** The identifier set by the `data-sly-test` block element is global to the script and can be used anywhere after its declaration:
 
-    ```scala
-    <p data-sly-test.editOrDesign="${wcmmode.edit || wcmmode.design}">displays the content when in `edit` or `design` mode</p>
-    <p data-sly-test="${!editOrDesign && pageProperties.jcr:title}">displays the content when in `edit` or `design` mode and the `pageProperties` contain a non-empty `jcr:title` property</p>
-    ```
+```html
+<p data-sly-test.editOrDesign="${wcmmode.edit || wcmmode.design}">displays the content when in `edit` or `design` mode</p>
+<p data-sly-test="${!editOrDesign && pageProperties.jcr:title}">displays the content when in `edit` or `design` mode and the `pageProperties` contain a non-empty `jcr:title` property</p>
+```
 
 Removes the whole element from the markup if the expression evaluates to `false`.
 
