@@ -846,7 +846,15 @@ Top top-level identifiers are case-insensitive (because they can be set through 
 * Exposes logic to the template.
 * **Element:** always shown.
 * **Attribute value:** required; evaluates to `String`; the object to instantiate.
-* **Attribute identifier:** optional; customised identifier name to access the instantiated logic.
+* **Attribute identifier:** optional; customised identifier name to access the instantiated logic; if an identifier is not provided, the instantiated logic will be available under the `useBean` identifier name.
+* **Scope:** The identifier set by the `data-sly-use` block element is global to the script and can be used anywhere after its declaration:
+
+    ```html
+    ${customPage.foo} <!--/* this fails */-->
+    <div data-sly-use.customPage="CustomPage">Hello World</div>
+    ${customPage.foo} <!--/* but this works */-->
+    ```
+
 
 Initialises the specified logic and makes it available to the current template:
 
@@ -860,14 +868,6 @@ The element on which a `data-sly-use` has been set as well as its content is ren
 <div class="foo" data-sly-use.customPage="CustomPage">Hello World</div>
 <!--/* outputs: */-->
 <div class="foo">Hello World</div>
-```
-
-The identifier set by the `data-sly-use` attribute isn't scoped only inside of the element, but can be used anywhere after its declaration:
-
-```html
-${customPage.foo} <!--/* this fails */-->
-<div data-sly-use.customPage="CustomPage">Hello World</div>
-${customPage.foo} <!--/* but this works */-->
 ```
 
 Parameters can be passed to the Use-API by using expression options:
@@ -1058,19 +1058,18 @@ The element name is automatically XSS-protected with the `elementName` context, 
 * **Content of element:** shown if test evaluates to `true`.
 * **Attribute value:** optional; evaluated as `Boolean` (but not type-cased to `Boolean` when exposed in a variable); evaluates to `false` if the value is omitted.
 * **Attribute identifier:** optional; identifier name to access the result of the test.
+* **Scope:** The identifier set by the `data-sly-test` block element is global to the script and can be used anywhere after its declaration:
+
+    ```scala
+    <p data-sly-test.editOrDesign="${wcmmode.edit || wcmmode.design}">displays the content when in `edit` or `design` mode</p>
+    <p data-sly-test="${!editOrDesign && pageProperties.jcr:title}">displays the content when in `edit` or `design` mode and the `pageProperties` contain a non-empty `jcr:title` property</p>
+    ```
 
 Removes the whole element from the markup if the expression evaluates to `false`.
 
 ```html
 <p data-sly-test="${wcmmode.edit}">You are in edit mode</p>
 <p data-sly-test>This paragraph will never display</p>
-```
-
-The evaluated result of the test statement can be assigned to an identifier to be reused later. This identifier isn't scoped, but can be used anywhere in the markup after it has been set:
-
-```html
-<p data-sly-test.editOrDesign="${wcmmode.edit || wcmmode.design}">show this in edit...</p>
-<p data-sly-test="${!editOrDesign && pageProperties.jcr:title}">show this when disabled...</p>
 ```
 
 Note that the identifier contains the value of the condition as it was (not casting it to a `Boolean` value):
@@ -1091,7 +1090,8 @@ Note that the identifier contains the value of the condition as it was (not cast
   when the `begin` value is used the element will be shown only if the `begin` value is smaller than the collection's size.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the content will not be shown.
-* **Attribute identifier:** optional; customised identifier name to access the item within the list element.
+* **Attribute identifier:** optional; customised identifier name to access the item within the list element; if an identifier is not provided, the block element will implicitly make available an `item` identifier to access the element of the current iteration.
+* **Scope:** The identifier set by the `data-sly-list` block element is available only in the element's scope. The identifier will override other identifiers with the same name available in the scope, however their values will be restored once outside of the element's scope.
 
 Repeats the content of the element for each item of the provided object (which can be an array, or any iterable object).
 
@@ -1146,7 +1146,8 @@ value, allowing to control the iteration through the following options:
 * **Element:** shown only if the number of items from the attribute value is greater than 0, or if the attribute value is a string or number.
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the containing element and its content will not be shown.
-* **Attribute identifier:** optional; customised identifier name to access the item within the repeat element.
+* **Attribute identifier:** optional; customised identifier name to access the item within the repeat element; if an identifier is not provided, the block element will implicitly make available an `item` identifier to access the element of the current iteration.
+* **Scope:** The identifier set by the `data-sly-list` block element is available only in the element's scope. The identifier will override other identifiers with the same name available in the scope, however their values will be restored once outside of the element's scope.
 
 Repeats the content of the element for each item of the provided object (which can be an array, or any iterable object).
 
@@ -1271,6 +1272,7 @@ Template blocks can be used like function calls: in their declaration they can g
 * **Content of element**: shown upon calling the template with `data-sly-call`.
 * **Attribute value:** optional; an expression with only options, defining the parameters it can get.
 * **Attribute identifier:** required; the template identifier to declare.
+* **Scope:** The identifier set by the `data-sly-template` block element is global and available no matter if it's accessed before or after the template's definition. An identically named identifier created with the help of another block element can override the value of the identifier set by `data-sly-template`.
 
 ##### 2.2.10.2. Call
 **`data-sly-call`:**
