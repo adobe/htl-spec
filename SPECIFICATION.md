@@ -1315,8 +1315,9 @@ When some parameters are missing in a template call, that parameter would be ini
 * Unwraps the element.
 * **Element:** never shown.
 * **Content of element:** always shown.
-* **Attribute value:** none.
-* **Attribute identifier:** none.
+* **Attribute value:** optional; an expression evaluated as `Boolean`; defaults to `true` if the value is omitted.
+* **Attribute identifier:** optional; identifier name to access the result of the test.
+* **Scope:** The identifier set by the `data-sly-unwrap` block element is global to the script and can be used anywhere after its declaration.
 
 `data-sly-unwrap` can be used to hide the element itself, only showing its content:
 
@@ -1326,6 +1327,10 @@ When some parameters are missing in a template call, that parameter would be ini
  
 <!--/* This would show a <div> around "Foo" only if the test is false: */-->
 <div data-sly-unwrap="${myTest}">Foo</div>
+
+<!--/* Scope: script global */-->
+<p data-sly-unwrap.richText="${configuration.text.isRich}">${sectionA}</p>
+<p data-sly-unwrap="${richText}">${sectionB}</p>
 ```
 
 #### 2.2.12. Set
