@@ -1348,6 +1348,20 @@ When some parameters are missing in a template call, that parameter would be ini
 <a class="profile-link" href="${profile.url}">Edit your profile</a>
 ```
 
+### 2.3. Block Statements Priority
+When used on the same element, the following priority list defines how block statements are evaluated:
+
+1. `data-sly-template`
+2. `data-sly-set`, `data-sly-test`, `data-sly-use`
+3. `data-sly-call`
+4. `data-sly-text`
+5. `data-sly-element`, `data-sly-include`, `data-sly-resource`
+6. `data-sly-unwrap`
+7. `data-sly-list`, `data-sly-repeat`
+8. `data-sly-attribute`
+
+When two block statements have the same priority, their evaluation order is from left to right. 
+
 ## 3. Special HTML tags
 
 ### 3.1. `<sly>`
