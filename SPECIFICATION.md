@@ -53,6 +53,7 @@ HTML Template Language Specification
             3. [Examples](#22103-examples)
         11. [Unwrap](#2211-unwrap)
         12. [Set](#2212-set)
+    3. [Block Statements Priority](#23-block-statements-priority)
 3. [Special HTML tags](#3-special-html-tags)
     1. [&lt;sly&gt;](#31-sly)
 4. [Use-API](#4-use-api)
