@@ -203,8 +203,19 @@ Expressions can be used in following contexts for outputting identifiers into th
 ```html
 <tag>Some text ${myText}</tag>
 <tag attr="Some text ${myAttrValue}"></tag>
-<tag href="${myHrefValue}"></tag> <!--/* links get a special URI xss protection for href and src attributes */-->
+<tag href="${myHrefValue}"></tag>
 ```
+
+HTL expressions used to output values for the following HTML attributes that provide URIs or URLs will automatically be processed with the
+`uri` [display context](#121-display-context), unless an explicit `context` is provided:
+* `action` (`<form>`)
+* `cite` (`<blockquote>`, `<del>`, `<ins>`, `<q>` tags)
+* `data` (`<object>`)
+* `formaction` (`<button>`, `<input>`)
+* `href` (`<a>`, `<area>`, `<link>`, `<base>`)
+* `manifest` (`<html>`)
+* `poster` (`<video>`)
+* `src` (`<audio>`, `<embed>`, `<iframe>`, `<img>`, `<input>`, `<script>`, `<source>`, `<track>`, `<video>`)
 
 For style and script contexts, it is mandatory to set a context. If the context isn't set, the expression shouldn't output anything. Some examples:
 
