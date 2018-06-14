@@ -283,7 +283,7 @@ ${enumConstant == 'CONSTANT_NAME'}     <!-- Java Enum comparison -->
 ##### 1.1.4.3. Relational Operators
 The `in` relational operator can be used to:
 
-1. Check if a `String` is contained by another `String`:
+1. Check if a `String` is contained by another `String` (case-sensitive):
     ```html
     ${'a' in 'abc'} <!--/* returns true */-->
     ${'ab' in 'abc'} <!--/* returns true */-->
