@@ -1205,7 +1205,9 @@ When iterating over `Map` objects, the item variable contains the key of each ma
 * **Attribute value:** required; the file to include.
 * **Attribute identifier:** none.
 
-Includes the output of a rendering script run with the current context, passing back control to the current HTL script.
+Includes the output of a rendering script run with the current request context, passing back control to the current HTL script.
+
+> Note: this is comparable to the JSP `<%@ include file="" %>`.
 
 ```html
 <div data-sly-include="template.html"></div>
@@ -1243,7 +1245,9 @@ The scope of the `data-sly-include` statement isn't passed to the template of th
 * **Attribute value:** required; the path to include.
 * **Attribute identifier:** none.
 
-Includes a rendered resource from the same server, using an absolute or relative path.
+Includes a rendered resource from the same server, using an absolute or relative path. An implementation should create a new request context when retrieving the output.
+
+> Note: this is comparable to a `<jsp:include page="" />`.
 
 ```html
 <section data-sly-resource="./path"></section>
