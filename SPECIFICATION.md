@@ -1329,7 +1329,7 @@ When some parameters are missing in a template call, that parameter would be ini
 #### 2.2.11. Unwrap
 **`data-sly-unwrap`:**
 * Unwraps the element.
-* **Element:** never shown.
+* **Element:** shown if expression evaluates to `false`.
 * **Content of element:** always shown.
 * **Attribute value:** optional; an expression evaluated as `Boolean`; defaults to `true` if the value is omitted.
 * **Attribute identifier:** optional; identifier name to access the result of the test.
