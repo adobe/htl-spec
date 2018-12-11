@@ -1104,7 +1104,7 @@ Note that the identifier contains the value of the condition as it was (not cast
 * **Content of element:** repeated as many times as there are items in the attribute value.
 * **Attribute value:** optional; the item to iterate over; if omitted the content will not be shown.
 * **Attribute identifier:** optional; customised identifier name to access the item within the list element; if an identifier is not provided, the block element will implicitly make available an `item` identifier to access the element of the current iteration.
-* **Scope:** The identifier set by the `data-sly-list` block element is available only in the element's children scope. The identifier will override other identifiers with the same name available in the scope, however their values will be restored once outside of the element's scope.
+* **Scope:** The identifier set by the `data-sly-list` block element is available only in the element's content scope. The identifier will override other identifiers with the same name available in the scope, however their values will be restored once outside of the element's scope.
 
 Repeats the content of the element for each item of the provided object (which can be an array, or any iterable object).
 
