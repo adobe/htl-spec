@@ -87,7 +87,7 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
 
     inBinaryOp = comparisonOp [, 'in', comparisonOp];
 
-    comparisonOp = factor {, comparisonOperator, factor};
+    comparisonOp = factor [, comparisonOperator, factor];
 
     comparisonOperator = '<'
          | '<='
