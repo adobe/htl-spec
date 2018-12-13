@@ -245,7 +245,7 @@ ${varOne && !(varTwo || varThree)} <!--/* 1. Grouping parenthesis */-->
 ${!myVar}                          <!--/* 2. Logical NOT */-->
 ${varOne && varTwo}                <!--/* 3. Logical AND */-->
 ${varOne || varTwo}                <!--/* 4. Logical OR */-->
-${varChoice ? varOne : varTwo}     <!--/* 5. Conditional (ternary) (note that the ? and : separators must be surrounded by a space) */-->
+${varChoice ? varOne : varTwo}     <!--/* 5. Conditional (ternary) (note that the ':' separator must be surrounded by a space) */-->
 ```
 
 The numbers written in the comments above correspond to the precedence of the operators.
