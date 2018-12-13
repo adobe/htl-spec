@@ -10,13 +10,13 @@ Version 1.4 brings the following enhancements:
 
 For a full list of issues addressed by this release please check [7].
 
-[0] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#226-list
-[1] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#227-repeat
-[2] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#1143-relational-operators
-[3] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#111-grammar
-[4] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#2211-unwrap
-[5] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#113-context-sensitive
-[6] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#2212-set
+[0] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#226-list  
+[1] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#227-repeat  
+[2] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#1143-relational-operators  
+[3] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#111-grammar  
+[4] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#2211-unwrap  
+[5] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#113-context-sensitive  
+[6] - https://github.com/adobe/htl-spec/blob/1.4/SPECIFICATION.md#2212-set  
 [7] - https://github.com/adobe/htl-spec/milestone/3?closed=1
 
 HTML Template Language Specification [1.3.1](https://github.com/adobe/htl-spec/tree/1.3.1) - August 1st, 2017
