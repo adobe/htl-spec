@@ -891,7 +891,7 @@ Parameters can be passed to the Use-API by using expression options:
 
 More informations about how the Use-API is working can be found in the [Use-API section](#4-use-api).
 
-The use statement can also be used to load external templates. See the [Template & Call section](#229-template--call) for this usage.
+The use statement can also be used to load external templates. See the [Template & Call section](#2210-template--call) for this usage.
 
 #### 2.2.2. Text
 **`data-sly-text`:**
