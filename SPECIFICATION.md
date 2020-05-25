@@ -1296,7 +1296,7 @@ Template blocks can be used like function calls: in their declaration they can g
 * Calls a declared HTML block, passing parameters to it.
 * **Element:** always shown.
 * **Content of element:** replaced with the content of the called `data-sly-template` element.
-* **Attribute value:** optional; an expression defining the template identifier and the parameters to pass.
+* **Attribute value:** required; an expression defining the template identifier and the parameters to pass.
 * **Attribute identifier:** none.
 
 ##### 2.2.10.3. Examples
