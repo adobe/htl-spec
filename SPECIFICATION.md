@@ -502,7 +502,8 @@ ${'EEEE, dd MMMM yyyy' @ format=obj.date, locale='de'}      <!--/* Locale */-->
 The formatting pattern supports, at minimum, the following letters:
 
 * `y` - Year. Variants: `yy`, `yyyy`
-* `M` - Month in year. Variants: `MM`, `MMM`, `MMMM`
+* `M` - Month in year (context sensitive). Variants: `MM`, `MMM`, `MMMM`
+* `L` - Month in year (standalone form). Variants: `LLLL`
 * `w` - Week in year. Variants: `ww`
 * `D` - Day in year. Variants: `DD`, `DDD`
 * `d` - Day in month. Variants: `dd`
