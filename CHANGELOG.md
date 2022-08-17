@@ -1,3 +1,11 @@
+HTML Template Language Specification [1.4.1](https://github.com/adobe/htl-spec/tree/1.4.1) - TBD
+====
+Version 1.4.1 is a micro release that clarifies some of the wording from version 1.4 or provides more guidance for implementations.
+
+For a full list of issues addressed by this release please check [8].
+
+[8] - https://github.com/adobe/htl-spec/milestone/4?closed=1
+
 HTML Template Language Specification [1.4](https://github.com/adobe/htl-spec/tree/1.4) - June 18th, 2018
 ====
 Version 1.4 brings the following enhancements:
