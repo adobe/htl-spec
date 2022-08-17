@@ -419,23 +419,27 @@ To protect against cross-site scripting (XSS) vulnerabilities, HTL automatically
 It is also possible to override the automatic display context handling with the `context` option.
 
 ```html
-${properties.jcr:title @ context='html'}          <!--/* Use this in case you want to output HTML - Removes markup that may contain XSS risks */-->
-${properties.jcr:title @ context='text'}          <!--/* Use this for simple HTML content - Encodes all HTML */-->
-${properties.jcr:title @ context='elementName'}   <!--/* Allows only element names that are white-listed, outputs 'div' otherwise */-->
-${properties.jcr:title @ context='attributeName'} <!--/* Outputs nothing if the value doesn't correspond to the HTML attribute name syntax - doesn't allow 'style' and 'on*' attributes */-->
-${properties.jcr:title @ context='attribute'}     <!--/* Applies HTML attribute escaping */-->
-${properties.jcr:title @ context='uri'}           <!--/* Outputs nothing if the value contains XSS risks */-->
-${properties.jcr:title @ context='scriptToken'}   <!--/* Outputs nothing if the value doesn't correspond to an Identifier, String literal or Numeric literal JavaScript token */-->
-${properties.jcr:title @ context='scriptString'}  <!--/* Applies JavaScript string escaping */-->
-${properties.jcr:title @ context='scriptComment'} <!--/* Context for Javascript block comments. Outputs nothing if value is trying to break out of the comment context */-->
-${properties.jcr:title @ context='scriptRegExp'}  <!--/* Applies JavaScript regular expression escaping */-->
-${properties.jcr:title @ context='styleToken'}    <!--/* Outputs nothing if the value doesn't correspond to the CSS token syntax */-->
-${properties.jcr:title @ context='styleString'}   <!--/* Applies CSS string escaping */-->
-${properties.jcr:title @ context='styleComment'}  <!--/* Context for CSS comments. Outputs nothing if value is trying to break out of the comment context */-->
-${properties.jcr:title @ context='comment'}       <!--/* Applies HTML comment escaping */-->
-${properties.jcr:title @ context='number'}        <!--/* Outputs zero if the value is not a number */-->
-${properties.jcr:title @ context='unsafe'}        <!--/* Use this at your own risk, this disables XSS protection completely */-->
+${properties.jcr:title @ context='text'}
 ```
+
+The following table lists the available contexts:
+
+|Context|When to use|What it does|
+|--- |--- |--- |
+|`attribute`|Default for attribute values|Encodes all HTML special characters.|
+|`attributeName`|Default for data-sly-attribute when setting attribute names|Validates the attribute name, outputs nothing if validation fails.|
+|`elementName`|Default for data-sly-element|Validates the element name, outputs nothing if validation fails.|
+|`html`|To safely output markup|Filters HTML in order to remove dangerous tags.|
+|`number`|To display numbers|Validates that the passed value is a number, outputs nothing if validation fails.|
+|`scriptComment`|Within JavaScript comments|Validates the JavaScript comment, outputs nothing if validation fails.|
+|`scriptString`|Within JavsScript strings|Encodes characters that would break out of the string.|
+|`scriptToken`|For JavaScript identifiers, literal numbers, or literal strings|Validates the JavaScript token, outputs nothing if validation fails.|
+|`styleComment`|Within CSS comments|Validates the CSS comment, outputs nothing if validation fails.|
+|`styleString`|Within CSS strings|Encodes characters that would break out of the string.|
+|`styleToken`|For CSS identifiers, numbers, dimensions, strings, hex colours or functions.|Validates the CSS token, outputs nothing if validation fails.|
+|`text`|Default for content inside HTML [Text Nodes](https://developer.mozilla.org/en-US/docs/Web/API/Text)|Encodes all HTML special characters.|
+|`unsafe`|When all the other contexts are too restrictive|_Disables escaping and XSS protection completely._|
+|`uri`|To display links and paths; default for the `action`, `cite`, `data`, `formaction`, `href`, `manifest`, `poster` and `src` attribute values|Validates the URI and outputs nothing if validation fails.|
 
 Note that `context='elementName'` allows only the following element names:
 
