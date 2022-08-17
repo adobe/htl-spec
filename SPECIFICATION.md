@@ -821,13 +821,18 @@ URI manipulation can be performed by adding any of the following options to an e
 ## 2. Block Statements
 
 ### 2.1. Syntax
-HTL block plugins are defined by `data-sly-*` attributes set on HTML elements. Elements can have a closing tag or be self-closing. Attributes can have values (which can be static strings or expressions), or simply be boolean attributes (without a value).
+HTL block plugins are defined by `data-sly-*` attributes set on HTML elements. Elements can have a closing tag or be self-closing. Attributes can have values (which can be static strings or expressions), or simply be boolean attributes (without a value). The attribute values can be single-quoted, double-quoted or unquoted.
 
 ```html
 <tag data-sly-BLOCK></tag>                                 <!--/* A block is simply consists in a data-sly attribute set on an element. */-->
 <tag data-sly-BLOCK/>                                      <!--/* Empty elements (without a closing tag) should have the trailing slash. */-->
 <tag data-sly-BLOCK="string value"/>                       <!--/* A block statement usually has a value passed, but not necessarily. */-->
-<tag data-sly-BLOCK="${expression}"/>                      <!--/* The passed value can be an expression as well. */-->
+
+<!--/* The passed value can be an expression as well. */-->
+<tag data-sly-BLOCK="${expression}"
+     data-sly-BLOCK='${expression}'
+     data-sly-BLOCK=${expression}/>
+     
 <tag data-sly-BLOCK="${@ myArg='foo'}"/>                   <!--/* Or a parametric expression with arguments. */-->
 <tag data-sly-BLOCKONE="value" data-sly-BLOCKTWO="value"/> <!--/* Several block statements can be set on a same element. */-->
 ```
