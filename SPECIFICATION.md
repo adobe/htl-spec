@@ -1222,14 +1222,21 @@ Includes the output of a rendering script run with the current request context, 
 <div data-sly-include="${'template.html'}"></div>
 ```
 
-With an expression more options can be specified:
+With an expression more path manipulation options can be specified. Paths are resolved relative to the current rendering context:
 
-```html
-<!--/* Manipulating the path: */-->
-<div data-sly-include="${'template.html' @ appendPath='appended/path'}"></div>
-<div data-sly-include="${'template.html' @ prependPath='prepended/path'}"></div>
-<div data-sly-include="${@ file='template.html', prependPath='prepended/path', appendPath='appended/path'}"></div>
-```
+* `appendPath` - appends its content to the passed path
+* `prependPath` - prepends its content to the passed path
+    
+    ```html
+    <div data-sly-include="${'partials' @ appendPath='template.html'}"></div>
+    <!--/* will include partials/template.html */-->
+
+    <div data-sly-include="${'template.html' @ prependPath='partials'}"></div>
+    <!--/* will include partials/template.html */-->
+
+    <div data-sly-include="${'components' @ prependPath='partials', appendPath='template.html'}"></div>
+    <!--/* will include partials/components/template.html */-->
+    ```
 
 The element on which a data-sly-include has been set is ignored and not displayed:
 
@@ -1254,32 +1261,45 @@ Includes a rendered resource from the same server, using an absolute or relative
 > Note: this is comparable to a `<jsp:include page="" />`.
 
 ```html
+<!--/* Following statements are equivalent: */-->
 <section data-sly-resource="./path"></section>
+<section data-sly-resource="${'./path'}"></section>
 ```
 
 With an expression more options can be specified:
 
-```html
-<!--/* Following statements are equivalent: */-->
-<section data-sly-resource="./path"></section>
-<section data-sly-resource="${'./path'}"></section>
- 
-<!--/* Manipulating the path: */-->
-<section data-sly-resource="${'my/path' @ appendPath='appended/path'}"></section>
-<section data-sly-resource="${'my/path' @ prependPath='prepended/path'}"></section>
- 
-<!--/* Manipulating selectors: */-->
-<section data-sly-resource="${'my/path' @ selectors='selector1.selector2'}"></section>
-<section data-sly-resource="${'my/path' @ selectors=['selector1', 'selector2']}"></section>
-<section data-sly-resource="${'my/path' @ addSelectors='selector1.selector2'}"></section>
-<section data-sly-resource="${'my/path' @ addSelectors=['selector1', 'selector2']}"></section>
-<section data-sly-resource="${'my/path' @ removeSelectors='selector1.selector2'}"></section>
-<section data-sly-resource="${'my/path' @ removeSelectors=['selector1', 'selector2']}"></section>
-<section data-sly-resource="${'my/path' @ removeSelectors}"></section>
+* `appendPath` - appends its content to the passed path
+* `prependPath` - prepends its content to the passed path
+    ```html
+    <section data-sly-resource="${'my/path' @ appendPath='appended/path'}"></section>
+    <!--/* Will include my/path/appended/path */-->
+    <section data-sly-resource="${'my/path' @ prependPath='prepended/path'}"></section>
+    <!--/* Will include prepended/path/my/path */-->
+    ```
+* `selectors` - replaces all selectors from the original request with the selectors passed in a selector string or a selector array before including the passed path:
+    ```html
+    <!--/* Manipulating selectors: */-->
+    <section data-sly-resource="${'my/path' @ selectors='selector1.selector2'}"></section>
+    <section data-sly-resource="${'my/path' @ selectors=['selector1', 'selector2']}"></section>
+    ```
 
-<!--/* Forcing the type of the rendered resource: */-->
-<section data-sly-resource="${'./path' @ resourceType='my/resource/type'}"></section>
-```
+* `addSelectors` - adds the selectors from the passed selector string or selector array to the original request before including the passed path:
+    ```html
+    <section data-sly-resource="${'my/path' @ addSelectors='selector1.selector2'}"></section>
+    <section data-sly-resource="${'my/path' @ addSelectors=['selector1', 'selector2']}"></section>
+    ```
+
+* `removeSelectors` - removes the selectors found in the passed selector string or selector array from the original request before including the passed path; when the option doesn't have a value, all the selectors will be removed from the original request:
+    ```html
+    <section data-sly-resource="${'my/path' @ removeSelectors='selector1.selector2'}"></section>
+    <section data-sly-resource="${'my/path' @ removeSelectors=['selector1', 'selector2']}"></section>
+    <section data-sly-resource="${'my/path' @ removeSelectors}"></section>
+    ```
+
+* `resourceType` - forces the rendering of the passed path with a script mapped to the overridden resource type:
+    ```html
+    <section data-sly-resource="${'./path' @ resourceType='my/resource/type'}"></section>
+    ```
 
 The scope of the `data-sly-resource` statement isn't passed to the template of the included resource.
 
