@@ -151,7 +151,7 @@ The grammar of the HTL Expression Language is pretty simple and can be summarise
     
     hexDigit = ('0'..'9'|'a'..'f'|'A'..'F') ;
 
-The above grammar is adapted from the source ANTLR files. It uses the following conventions:
+The above grammar is adapted from the [source ANTLR files](https://github.com/apache/sling-org-apache-sling-scripting-sightly-compiler/tree/master/src/main/antlr4/org/apache/sling/scripting/sightly/impl/parser/expr/generated). It uses the following conventions:
 
     foo   Alphabetic words and comma (',') are rule names.
     /**/  Slash-star and star-slash delimit comments.
@@ -1439,3 +1439,17 @@ use(['dep1.js', 'dep2.js'], function (Dep1, Dep2) {
     }
 });
 ```
+
+### 4.3. Object Resolution and their Properties or Methods
+HTL implementations have to provide the appropriate support for the Use-API depending on the platform on which they run. However, property or method resolution on a target object must obey the following rules:
+
+1. `expression.identifier` is equivalent to `expression["identifier"]` and to `expression['identifier']`
+2. the `identifier` resolution uses the following algorithm:
+
+    1. try to resolve the `identifier` as a publicly accessible field of the object returned by the `expression`; if found, return;
+    2. try to resolve the `identifier` as a publicly accessible method without formal parameters of the object returned by the `expression`:
+
+        1. try to find a method whose name is `identifier`; if found, call method and return;
+        2. try to find a getter called `getIdentifier` (notice the `camelCase`); if found, call method and return;
+        3. try to find an `isIdentifier` method (notice the `camelCase`); if found, call method and return;
+        4. return `null`
