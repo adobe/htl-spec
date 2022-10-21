@@ -1,6 +1,6 @@
 HTML Template Language Specification
 ====
-The [HTML Template Language](https://docs.adobe.com/docs/en/htl.html "Introduction to the HTML Template Language") (HTL), formerly known as Sightly, has been introduced with [Adobe Experience Manager](http://www.adobe.com/solutions/web-experience-management.html) 6.0 and takes the place of JSP (JavaServer Pages) as the preferred and recommended server-side template system for HTML.
+The [HTML Template Language](https://experienceleague.adobe.com/docs/experience-manager-htl/content/overview.html "HTL Guide") (HTL), formerly known as Sightly, has been introduced with [Adobe Experience Manager](http://www.adobe.com/solutions/web-experience-management.html) 6.0 and takes the place of JSP (JavaServer Pages) as the preferred and recommended server-side template system for HTML.
 
 This is the [HTL Specification](https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md) that defines the syntax and the behavior of the language.
 
