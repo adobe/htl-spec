@@ -432,7 +432,7 @@ The following table lists the available contexts:
 |`html`|To safely output markup|Filters HTML in order to remove dangerous tags.|
 |`number`|To display numbers|Validates that the passed value is a number, outputs nothing if validation fails.|
 |`scriptComment`|Within JavaScript comments|Validates the JavaScript comment, outputs nothing if validation fails.|
-|`scriptString`|Within JavsScript strings|Encodes characters that would break out of the string.|
+|`scriptString`|Within JavaScript strings|Encodes characters that would break out of the string.|
 |`scriptToken`|For JavaScript identifiers, literal numbers, or literal strings|Validates the JavaScript token, outputs nothing if validation fails.|
 |`styleComment`|Within CSS comments|Validates the CSS comment, outputs nothing if validation fails.|
 |`styleString`|Within CSS strings|Encodes characters that would break out of the string.|
